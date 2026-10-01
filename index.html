@@ -1,0 +1,1773 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>CholoKiniBD</title>
+<style>
+:root{--bg:#05070a;--card:#0b1017;--card2:#0f1721;--text:#f7fbff;--muted:#8d9aaa;--line:#1d2a37;--green:#19f28b;--green2:#08b968;--gold:#ffd447;--red:#ff5262;--shadow:0 25px 80px rgba(0,0,0,.45)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#05070a;color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh;padding-bottom:105px}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 0%,rgba(25,242,139,.09),transparent 28%),radial-gradient(circle at 90% 12%,rgba(255,212,71,.08),transparent 25%);z-index:-1}button,input,select,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}.hide{display:none!important}.container{width:min(1220px,100%);margin:auto;padding:0 18px}
+/* CINEMATIC INTRO + AUTH */
+.introScreen,.authGate{position:fixed;inset:0;z-index:1000;background:#030507;display:flex;align-items:center;justify-content:center;overflow:hidden}.introScreen{transition:opacity .7s,visibility .7s}.introScreen.done{opacity:0;visibility:hidden;pointer-events:none}.introGrid{position:absolute;inset:-30%;background:linear-gradient(rgba(25,242,139,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(25,242,139,.07) 1px,transparent 1px);background-size:55px 55px;transform:perspective(500px) rotateX(58deg) translateY(25%);animation:gridMove 5s linear infinite}.introGlow{position:absolute;width:330px;height:330px;border-radius:50%;background:rgba(25,242,139,.18);filter:blur(55px);animation:glow 2s ease-in-out infinite alternate}.introCore{text-align:center;position:relative;z-index:2}.introLogo{font-size:clamp(45px,12vw,100px);font-weight:1000;letter-spacing:-6px;animation:logoIn 1.1s cubic-bezier(.2,.8,.2,1)}.introLogo span{color:var(--green);text-shadow:0 0 30px rgba(25,242,139,.55)}.introSub{margin-top:12px;color:#9ba8b6;letter-spacing:5px;font-size:11px;animation:fadeUp 1s .5s both}.loader{width:190px;height:3px;background:#17212b;border-radius:99px;margin:30px auto 0;overflow:hidden}.loader i{display:block;height:100%;width:35%;background:linear-gradient(90deg,var(--green),var(--gold));animation:load 1.5s ease-in-out infinite}
+.authGate{display:none;padding:18px}.authGate.show{display:flex}.authShell{width:min(1050px,100%);min-height:620px;display:grid;grid-template-columns:1.05fr .95fr;background:linear-gradient(145deg,#0a1017,#080c12);border:1px solid #263746;border-radius:32px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7)}.authVisual{position:relative;padding:50px;background:radial-gradient(circle at 70% 25%,rgba(25,242,139,.22),transparent 32%),linear-gradient(145deg,#0c1715,#06090d 70%);display:flex;flex-direction:column;justify-content:center;overflow:hidden}.authVisual:after{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(25,242,139,.2);border-radius:50%;right:-160px;bottom:-180px;box-shadow:0 0 0 50px rgba(25,242,139,.025),0 0 0 100px rgba(25,242,139,.02)}.authVisual h1{font-size:clamp(42px,6vw,74px);line-height:.92;letter-spacing:-5px;margin:16px 0}.authVisual h1 span{color:var(--green)}.authVisual p{color:#8e9cab;line-height:1.7;max-width:450px}.authFeature{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.authPill{padding:9px 12px;border:1px solid #263746;background:rgba(255,255,255,.025);border-radius:99px;color:#aab5c1;font-size:11px}.authForm{padding:42px;display:flex;flex-direction:column;justify-content:center}.authBrand{font-weight:1000;font-size:25px}.authBrand span{color:var(--green)}.authForm h2{font-size:34px;margin:30px 0 5px}.authTabs{display:flex;gap:7px;margin:20px 0}.authTabs button{flex:1;padding:11px;border:1px solid #263746;background:#0b121a;color:#82909f;border-radius:12px;font-weight:900}.authTabs button.active{background:rgba(25,242,139,.1);color:var(--green);border-color:rgba(25,242,139,.35)}.authInput{width:100%;padding:14px 15px;margin-bottom:10px;background:#080e15;border:1px solid #263746;color:#fff;border-radius:13px;outline:0}.authInput:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(25,242,139,.08)}.authMain{width:100%;padding:14px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--green),var(--green2));color:#02150c;font-weight:1000;margin-top:5px}.googleBtn{width:100%;padding:13px;border:1px solid #304050;background:#111a24;color:#fff;border-radius:13px;font-weight:900;margin-top:10px}.or{display:flex;align-items:center;gap:9px;color:#687788;font-size:11px;margin:15px 0}.or:before,.or:after{content:"";height:1px;background:#22313f;flex:1}
+/* SHOP */
+.topbar{height:32px;background:#070b10;border-bottom:1px solid #17232f;color:#738293;font-size:10px;display:flex;align-items:center;justify-content:center;letter-spacing:.5px}.header{position:sticky;top:0;z-index:40;background:rgba(5,7,10,.78);backdrop-filter:blur(22px);border-bottom:1px solid #17232f}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:15px}.logo{font-size:24px;font-weight:1000;letter-spacing:-1.5px}.logo b{color:var(--green)}.desktopLinks{display:flex;gap:4px;align-items:center}.navbtn{border:0;background:transparent;color:#82909f;padding:10px 12px;border-radius:12px;font-weight:900}.navbtn:hover,.navbtn.active{background:rgba(25,242,139,.08);color:var(--green)}.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--gold);color:#111;font-size:10px;margin-left:3px}.iconBtn{width:43px;height:43px;border:1px solid #263746;background:#0c131b;color:#fff;border-radius:14px;font-size:18px}.page{display:none}.page.active{display:block}.hero{padding:18px 0}.heroBox{min-height:455px;border-radius:32px;overflow:hidden;position:relative;background:radial-gradient(circle at 82% 25%,rgba(25,242,139,.17),transparent 25%),radial-gradient(circle at 55% 95%,rgba(255,212,71,.08),transparent 30%),linear-gradient(135deg,#0b1516,#080d13 58%,#0c1319);border:1px solid #243645;padding:46px 38px;display:flex;align-items:center;box-shadow:var(--shadow)}.heroBox:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 45%,rgba(255,255,255,.025) 50%,transparent 55%);background-size:220% 100%;animation:shine 5s linear infinite}.heroGlow{position:absolute;width:390px;height:390px;border-radius:50%;right:-100px;top:-120px;background:rgba(25,242,139,.09);filter:blur(15px)}.heroText{position:relative;z-index:2;max-width:760px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-weight:1000;font-size:11px;letter-spacing:2px}.eyebrow:before{content:"";width:28px;height:2px;background:var(--green)}.hero h1{font-size:clamp(48px,8vw,92px);line-height:.86;margin:18px 0;letter-spacing:-6px}.hero h1 span{color:var(--green)}.hero p{color:#8f9baa;line-height:1.8;max-width:650px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}.btn{border:0;border-radius:13px;padding:13px 18px;font-weight:1000;transition:.18s;box-shadow:0 10px 25px rgba(0,0,0,.2)}.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}.primary,.green{background:linear-gradient(135deg,var(--green),var(--green2));color:#03130b}.secondary{background:#101923;color:#f2f5f8;border:1px solid #293a49}.red{background:var(--red);color:#fff}.small{padding:9px 11px;font-size:12px;border-radius:10px}.section{padding:25px 0 32px}.head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:18px}.head h2{margin:0;font-size:28px}.muted{color:var(--muted)}.tools{display:flex;gap:8px;flex-wrap:wrap}.input,.select,.textarea{width:100%;border:1px solid #293a49;background:#091018;color:#f5f7fa;border-radius:13px;padding:12px 13px;outline:none}.input::placeholder,.textarea::placeholder{color:#627181}.input:focus,.select:focus,.textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(25,242,139,.08)}.search{width:270px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:linear-gradient(180deg,#0d151e,#080e14);border:1px solid #223443;border-radius:22px;overflow:hidden;box-shadow:0 14px 35px rgba(0,0,0,.28);transition:.2s}.card:hover{transform:translateY(-7px);border-color:rgba(25,242,139,.45);box-shadow:0 22px 50px rgba(0,0,0,.4)}.pic{height:235px;background:#0c131a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}.pic:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35));pointer-events:none}.pic img{width:100%;height:100%;object-fit:cover;transition:.3s}.card:hover .pic img{transform:scale(1.06)}.tag{position:absolute;left:11px;top:11px;background:var(--green);color:#03130b;border-radius:8px;padding:7px 9px;font-size:10px;font-weight:1000;z-index:2}.body{padding:15px}.body h3{margin:2px 0 8px;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.price{font-size:22px;font-weight:1000;color:var(--gold)}.stock{font-size:11px;color:#748394}.productActions{display:flex;gap:7px;margin-top:12px}.productActions .btn{flex:1}.panel{background:linear-gradient(145deg,#0d151e,#080e14);border:1px solid #223443;border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 12px 35px rgba(0,0,0,.24)}.notice{background:rgba(255,212,71,.07);border:1px solid rgba(255,212,71,.28);border-radius:13px;padding:12px;color:#ffe58b}.form{display:grid;gap:10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#0b131b;border:1px solid #223443;border-radius:15px;padding:14px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:23px;margin-top:4px}.status{display:inline-flex;padding:5px 9px;border-radius:99px;font-size:10px;font-weight:900}.pending{background:#3a310b;color:#ffe28a}.approved{background:#0c3a25;color:#62e5a4}.rejected{background:#3b1519;color:#ff8b92}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:900px}.table th,.table td{padding:11px;border-bottom:1px solid #20303d;text-align:left;vertical-align:top;font-size:12px}.empty{text-align:center;padding:38px;color:var(--muted)}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tab{border:0;padding:10px 12px;border-radius:10px;background:#17212c;color:#91a0af;font-weight:900;white-space:nowrap}.tab.active{background:rgba(25,242,139,.12);color:var(--green)}.profileTop{display:flex;align-items:center;gap:20px;padding:20px 0 16px}.avatarWrap{text-align:center}.avatar{width:142px;height:142px;border-radius:50%;border:4px solid var(--green);object-fit:cover;background:#17212c;box-shadow:0 0 0 5px #0c1219,0 0 30px rgba(25,242,139,.15)}.changePhoto{margin-top:10px}.profileName{font-size:31px;font-weight:1000;margin:0}.username{color:var(--green);font-size:17px;margin-top:5px}.infoList{background:#091018;border:1px solid #223443;border-radius:22px;padding:7px 18px}.infoRow{display:flex;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid #20303d}.infoRow:last-child{border-bottom:0}.infoLabel{color:#8e9aaa}.infoValue{text-align:right;max-width:58%;word-break:break-word}.cartRow{display:flex;justify-content:space-between;gap:15px;align-items:center}.cartItem{display:flex;gap:12px;align-items:center}.cartImg{width:70px;height:70px;border-radius:12px;object-fit:cover;background:#17212c}.qty{display:flex;align-items:center;gap:7px}.qty button{width:30px;height:30px;border:1px solid #304050;background:#131c26;color:#fff;border-radius:8px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.76);display:none;align-items:center;justify-content:center;z-index:100;padding:14px;backdrop-filter:blur(10px)}.modal.open{display:flex}.modalbox{width:min(720px,100%);max-height:92vh;overflow:auto;background:#0b121a;border:1px solid #2b3d4d;border-radius:23px;padding:19px;box-shadow:0 30px 90px rgba(0,0,0,.65)}.close{float:right;border:0;background:#17212c;color:#fff;border-radius:50%;width:36px;height:36px;font-size:22px}.toast{position:fixed;right:15px;bottom:98px;z-index:200;background:#f4f7fb;color:#08110c;padding:12px 15px;border-radius:12px;display:none;font-weight:800;box-shadow:var(--shadow)}.bottomNav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:60;width:min(680px,calc(100% - 24px));height:78px;background:rgba(8,13,18,.94);backdrop-filter:blur(20px);border:1px solid #293a49;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.48);display:grid;grid-template-columns:repeat(4,1fr);align-items:center}.bottomBtn{border:0;background:transparent;color:#718091;height:68px;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.bottomBtn .ico{font-size:23px;line-height:1}.bottomBtn span:last-child{font-size:10px;letter-spacing:.5px}.bottomBtn.active{color:var(--green)}.walletHero{background:linear-gradient(135deg,#073a24,#087c48 55%,#96740d);color:#fff;border-radius:24px;padding:20px;box-shadow:0 18px 40px rgba(25,242,139,.15);margin-bottom:13px}.walletHero .walletTitle{font-weight:900;letter-spacing:1px}.walletHero .walletBalance{font-size:36px;font-weight:1000;margin-top:8px}.walletActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.walletAction{border:0;border-radius:18px;padding:18px;background:#103b28;color:#5ff0a8;font-weight:1000;font-size:16px}.walletAction.yellow{background:#3d330b;color:#ffe38a}.bkashBox{background:#3d320b;border:1px solid #6d5a16;border-radius:18px;padding:15px}.bkashNumber{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#111923;border:1px solid #3a4653;border-radius:14px;padding:12px 14px;margin-top:10px}.copyBtn{border:0;background:var(--green);color:#04120b;border-radius:10px;padding:9px 12px;font-weight:900}.historyRow{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #25313e}.historyRow:last-child{border-bottom:0}
+@keyframes gridMove{to{transform:perspective(500px) rotateX(58deg) translateY(8%)}}@keyframes glow{to{transform:scale(1.15);opacity:.7}}@keyframes logoIn{from{opacity:0;transform:scale(.75);filter:blur(12px)}to{opacity:1;transform:scale(1);filter:blur(0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}@keyframes load{0%{transform:translateX(-130%)}50%{transform:translateX(180%)}100%{transform:translateX(300%)}}@keyframes shine{to{background-position:-220% 0}}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){.authShell{grid-template-columns:1fr;min-height:0;max-height:95vh;overflow:auto}.authVisual{min-height:250px;padding:30px}.authVisual h1{font-size:46px}.authForm{padding:28px}.desktopLinks{display:none}.grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.profileTop{flex-direction:column;text-align:center}.infoRow{align-items:flex-start}.heroBox{min-height:390px}.formgrid{grid-template-columns:1fr}}@media(max-width:500px){.container{padding:0 13px}.grid{gap:10px}.pic{height:175px}.body{padding:11px}.body h3{font-size:15px}.price{font-size:19px}.productActions{gap:5px}.productActions .btn{padding:9px 7px;font-size:11px}.head{align-items:stretch;flex-direction:column}.search{width:100%}.heroBox{border-radius:24px;padding:28px 20px}.hero h1{font-size:48px}.profileName{font-size:27px}.avatar{width:130px;height:130px}.authVisual{display:none}.authForm{padding:24px 18px}.authShell{border-radius:24px}}
+
+/* 3D WELCOME EXPERIENCE */
+.authVisual{isolation:isolate}
+.authVisual>*{position:relative;z-index:3}
+.auth3d{position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none;overflow:hidden}
+.auth3d:before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:8%;top:12%;background:radial-gradient(circle,rgba(25,242,139,.28),rgba(25,242,139,.04) 42%,transparent 70%);filter:blur(4px);animation:floatGlow 5s ease-in-out infinite}
+.orb{position:absolute;border-radius:50%;transform-style:preserve-3d;filter:drop-shadow(0 0 22px rgba(25,242,139,.4))}
+.orbA{width:150px;height:150px;right:15%;top:19%;background:radial-gradient(circle at 30% 25%,#d8fff0,#19f28b 24%,#08764a 58%,#03150e 80%);animation:orbFloat 5s ease-in-out infinite}
+.orbB{width:55px;height:55px;right:42%;top:54%;background:radial-gradient(circle at 30% 25%,#fff4bd,#ffd34d 30%,#8c6500 75%);box-shadow:0 0 35px rgba(255,211,77,.35);animation:orbFloat 4s ease-in-out infinite reverse}
+.cube{position:absolute;right:27%;top:43%;width:86px;height:86px;transform-style:preserve-3d;animation:cubeSpin 10s linear infinite}
+.cube i{position:absolute;inset:0;border:1px solid rgba(25,242,139,.65);background:rgba(25,242,139,.055);box-shadow:inset 0 0 25px rgba(25,242,139,.08)}
+.cube i:nth-child(1){transform:rotateY(0deg) translateZ(43px)}.cube i:nth-child(2){transform:rotateY(90deg) translateZ(43px)}.cube i:nth-child(3){transform:rotateY(180deg) translateZ(43px)}.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(43px)}.cube i:nth-child(5){transform:rotateX(90deg) translateZ(43px)}.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(43px)}
+@keyframes cubeSpin{from{transform:rotateX(-18deg) rotateY(0deg) rotateZ(8deg)}to{transform:rotateX(342deg) rotateY(360deg) rotateZ(368deg)}}
+@keyframes orbFloat{0%,100%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(-18px,22px,25px) rotate(12deg)}}
+@keyframes floatGlow{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-25px,18px,0) scale(1.08)}}
+@media(max-width:760px){.auth3d:before{width:260px;height:260px;right:-5%;top:5%}.orbA{width:100px;height:100px;right:8%;top:12%}.cube{width:58px;height:58px;right:27%;top:34%}.cube i:nth-child(1){transform:rotateY(0deg) translateZ(29px)}.cube i:nth-child(2){transform:rotateY(90deg) translateZ(29px)}.cube i:nth-child(3){transform:rotateY(180deg) translateZ(29px)}.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(29px)}.cube i:nth-child(5){transform:rotateX(90deg) translateZ(29px)}.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(29px)}}
+
+/* =========================================================
+   CHOLOKINIBD — XEB-INSPIRED UI SKIN
+   Visual-only layer: keeps existing HTML/JS/Firebase intact.
+   ========================================================= */
+:root{
+  --bg:#f7f8fc;
+  --surface:#ffffff;
+  --surface2:#f3f5fa;
+  --ink:#171923;
+  --muted:#7a7f8c;
+  --line:#e8eaf0;
+  --blue:#2478e8;
+  --blue2:#4e5fe8;
+  --purple:#6547df;
+  --pink:#ed238c;
+  --cyan:#16b8c9;
+  --green:#16b887;
+  --gold:#f2b51d;
+  --shadow:0 12px 35px rgba(34,43,72,.10);
+  --shadow2:0 22px 55px rgba(34,43,72,.13);
+  --radius:24px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 10% 5%,rgba(36,120,232,.07),transparent 26%),
+    radial-gradient(circle at 92% 18%,rgba(237,35,140,.06),transparent 24%),
+    var(--bg)!important;
+  color:var(--ink)!important;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.55) 48%,transparent 100%);
+}
+.container{max-width:1180px!important;padding-left:22px!important;padding-right:22px!important}
+.topbar{
+  background:#171923!important;color:#fff!important;
+  font-size:11px!important;text-align:center!important;
+  padding:7px 12px!important;letter-spacing:.25px;
+}
+.header{
+  background:rgba(255,255,255,.94)!important;
+  border-bottom:1px solid rgba(20,28,45,.07)!important;
+  box-shadow:0 5px 25px rgba(20,28,45,.05)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.nav{height:76px!important}
+.logo{font-size:25px!important;font-weight:950!important;letter-spacing:-1.3px!important}
+.logo b{color:var(--blue)!important}
+.desktopLinks{gap:5px!important}
+.navbtn{
+  color:#666b78!important;background:transparent!important;
+  border-radius:14px!important;font-weight:800!important;
+}
+.navbtn:hover,.navbtn.active{background:#edf4ff!important;color:var(--blue)!important}
+.badge{background:var(--blue)!important;border-radius:999px!important}
+.iconBtn{
+  width:45px!important;height:45px!important;border-radius:50%!important;
+  background:#f2f4f8!important;border:1px solid #e6e8ee!important;
+}
+
+/* HOME */
+.page{animation:pageIn .35s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.hero{padding:22px 0 10px!important}
+.heroBox{
+  min-height:370px!important;border-radius:30px!important;
+  padding:48px!important;overflow:hidden!important;
+  background:
+    radial-gradient(circle at 84% 20%,rgba(48,205,255,.7),transparent 20%),
+    radial-gradient(circle at 70% 80%,rgba(113,68,235,.85),transparent 28%),
+    linear-gradient(135deg,#1769d8,#4c3ac8 56%,#e3269a)!important;
+  box-shadow:var(--shadow2)!important;
+}
+.heroBox:before{background:rgba(255,255,255,.10)!important}
+.heroBox:after{
+  content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(255,255,255,.20);
+  border-radius:50%;right:7%;top:12%;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 70px rgba(255,255,255,.025);
+}
+.heroText{max-width:700px!important}
+.eyebrow{
+  background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.20)!important;
+  backdrop-filter:blur(10px)!important;font-size:11px!important;letter-spacing:1.2px!important;
+}
+.hero h1{font-size:clamp(38px,6vw,66px)!important;letter-spacing:-3px!important;margin:18px 0 14px!important}
+.hero h1 span{color:#fff!important}
+.hero p{color:rgba(255,255,255,.88)!important;font-size:16px!important;line-height:1.65!important}
+.btn{border-radius:15px!important;padding:13px 18px!important;font-weight:850!important}
+.btn.primary,.btn.green{
+  background:linear-gradient(135deg,var(--blue),var(--purple))!important;
+  box-shadow:0 10px 24px rgba(36,120,232,.24)!important;
+}
+.btn.secondary{
+  background:#fff!important;color:#313541!important;border:1px solid #e2e5ec!important;
+  box-shadow:0 8px 20px rgba(30,35,55,.06)!important;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.section{
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  padding:22px 0!important;
+}
+.head{align-items:center!important;margin-bottom:18px!important}
+.head h2{font-size:25px!important;letter-spacing:-.7px!important}
+.muted{color:var(--muted)!important}
+.tools{gap:9px!important}
+.input,.select,textarea{
+  background:#fff!important;border:1px solid #e2e5ec!important;
+  border-radius:14px!important;box-shadow:0 5px 16px rgba(30,35,55,.04)!important;
+}
+.input:focus,.select:focus,textarea:focus{
+  border-color:#9dc3ff!important;box-shadow:0 0 0 4px rgba(36,120,232,.10)!important;outline:none!important;
+}
+
+/* PRODUCT CARDS */
+.grid{gap:16px!important}
+.card,.productCard{
+  background:#fff!important;border:1px solid #eceef3!important;border-radius:22px!important;
+  box-shadow:0 9px 25px rgba(32,39,64,.07)!important;overflow:hidden!important;
+  transition:.22s ease!important;
+}
+.card:hover,.productCard:hover{transform:translateY(-5px)!important;box-shadow:0 18px 36px rgba(32,39,64,.12)!important}
+.card img,.productCard img{background:#f3f5fa!important}
+.cardBody,.productBody{padding:16px!important}
+.card h3,.productCard h3{font-size:16px!important}
+.price{color:var(--blue)!important;font-weight:950!important}
+.tag,.chip,.badge{border-radius:999px!important}
+
+/* PANELS / LISTS */
+.panel,.orderCard,.walletCard,.profileCard,.adminCard,.listItem{
+  background:#fff!important;border:1px solid #e7e9ef!important;
+  border-radius:22px!important;box-shadow:var(--shadow)!important;
+}
+table{background:#fff!important;border-radius:18px!important;overflow:hidden}
+th{background:#f4f6fa!important;color:#5f6572!important}
+td,th{border-color:#eceef3!important}
+
+/* WALLET — colorful XEB-style cards */
+#walletBox .walletHero,.walletHero{
+  border-radius:28px!important;
+  background:linear-gradient(135deg,#4932d5,#2478e8 58%,#12b9bf)!important;
+  color:#fff!important;box-shadow:var(--shadow2)!important;
+}
+#walletBox .walletHero *{color:inherit}
+.walletAction,.walletActions .btn{
+  border-radius:22px!important;min-height:150px!important;
+  border:0!important;color:#fff!important;font-size:20px!important;
+  box-shadow:0 14px 30px rgba(32,39,64,.12)!important;
+}
+.walletAction.add,.walletActions .add{background:linear-gradient(135deg,#16b887,#16b7c8)!important}
+.walletAction.withdraw,.walletActions .withdraw{background:linear-gradient(135deg,#f13c5f,#e51aa2)!important}
+
+/* TRANSACTION / FORM MODALS */
+.modal{background:rgba(20,24,38,.48)!important;backdrop-filter:blur(7px)!important}
+.modalbox{
+  background:#fff!important;border:1px solid #eceef3!important;border-radius:28px!important;
+  box-shadow:0 30px 80px rgba(15,20,35,.22)!important;
+}
+.modalbox .close{
+  background:#f2f4f8!important;border:0!important;border-radius:50%!important;
+}
+.formCard,.paymentCard,.checkoutCard{
+  background:#fff!important;border:1px solid #e5e8ef!important;border-radius:24px!important;
+  box-shadow:var(--shadow)!important;
+}
+.paymentMethod,.methodCard{
+  border-radius:20px!important;background:#fff!important;border:1px solid #e2e5ec!important;
+}
+.paymentMethod.active,.methodCard.active{
+  border-color:#8bb7ff!important;box-shadow:0 0 0 4px rgba(36,120,232,.08)!important;
+}
+.verifyBox,.transactionBox{
+  background:linear-gradient(135deg,#ed238c,#d62988 45%,#8a3fe8)!important;
+  border-radius:25px!important;color:#fff!important;
+  box-shadow:var(--shadow2)!important;
+}
+.verifyBox input,.transactionBox input{
+  background:rgba(255,255,255,.10)!important;color:#fff!important;
+  border:1px solid rgba(255,255,255,.34)!important;
+}
+.verifyBox input::placeholder,.transactionBox input::placeholder{color:rgba(255,255,255,.72)!important}
+.verifyBox .btn,.transactionBox .btn{
+  background:#fff!important;color:#c62b7d!important;border:0!important;
+}
+
+/* AUTH — clean premium white + blue/purple */
+.authGate{background:#f6f8fd!important}
+.authShell{
+  background:#fff!important;border:1px solid #e7eaf1!important;border-radius:32px!important;
+  box-shadow:0 28px 80px rgba(32,42,75,.15)!important;overflow:hidden!important;
+}
+.authVisual{
+  background:
+    radial-gradient(circle at 78% 20%,rgba(53,208,255,.45),transparent 23%),
+    radial-gradient(circle at 24% 88%,rgba(237,35,140,.35),transparent 30%),
+    linear-gradient(135deg,#1769d8,#5540d9 58%,#e5229c)!important;
+}
+.authBrand{color:#222!important}
+.authBrand span{color:var(--blue)!important}
+.authTabs{
+  background:#f1f3f7!important;border-radius:14px!important;padding:4px!important;
+}
+.authTabs button{border-radius:11px!important;color:#777!important}
+.authTabs button.active{background:#fff!important;color:var(--blue)!important;box-shadow:0 4px 12px rgba(30,40,70,.08)!important}
+.authForm input{
+  background:#f8f9fc!important;border:1px solid #e3e6ed!important;border-radius:14px!important;
+}
+.authForm .btn{width:100%!important}
+
+/* BOTTOM NAV — mobile app look */
+.bottomNav{
+  position:fixed!important;left:50%!important;bottom:12px!important;transform:translateX(-50%)!important;
+  width:min(680px,calc(100% - 24px))!important;
+  height:72px!important;padding:7px!important;
+  background:rgba(255,255,255,.95)!important;
+  border:1px solid #e5e8ef!important;border-radius:24px!important;
+  box-shadow:0 18px 45px rgba(30,38,65,.16)!important;
+  backdrop-filter:blur(18px)!important;z-index:100!important;
+}
+.bottomBtn{
+  border:0!important;background:transparent!important;color:#8a8f9a!important;
+  border-radius:18px!important;font-weight:800!important;gap:3px!important;
+}
+.bottomBtn.active{background:#eaf3ff!important;color:var(--blue)!important}
+.bottomBtn .ico{font-size:21px!important}
+footer{padding-bottom:110px!important}
+
+/* floating help / toast */
+.helpFloat,.supportFloat,.chatFloat{
+  border-radius:50%!important;
+  background:linear-gradient(135deg,var(--cyan),var(--blue2))!important;
+  box-shadow:0 15px 32px rgba(36,120,232,.25)!important;
+}
+.toast{
+  background:#171923!important;color:#fff!important;border-radius:14px!important;
+  box-shadow:0 15px 35px rgba(20,25,40,.20)!important;
+}
+
+/* Make the overall mobile composition closer to the reference screenshots */
+@media(max-width:760px){
+  .topbar{font-size:10px!important}
+  .header{position:sticky!important;top:0!important}
+  .nav{height:66px!important;padding:0 15px!important}
+  .desktopLinks{display:none!important}
+  .container{padding-left:15px!important;padding-right:15px!important}
+  .hero{padding-top:12px!important}
+  .heroBox{min-height:310px!important;border-radius:25px!important;padding:28px 23px!important}
+  .hero h1{font-size:39px!important;letter-spacing:-2px!important}
+  .hero p{font-size:13px!important;max-width:90%!important}
+  .actions{gap:8px!important}
+  .btn{padding:11px 14px!important;font-size:12px!important}
+  .head{display:block!important}
+  .tools{margin-top:12px!important;display:grid!important;grid-template-columns:1fr 120px!important}
+  .search{width:100%!important}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+  .card,.productCard{border-radius:18px!important}
+  .cardBody,.productBody{padding:12px!important}
+  .section{padding:14px 0!important}
+  .section h2{font-size:22px!important}
+  .bottomNav{bottom:10px!important;height:67px!important}
+  .authShell{width:calc(100% - 20px)!important;border-radius:26px!important}
+  .authVisual{min-height:300px!important}
+}
+@media(max-width:430px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .heroBox:after{right:-70px!important}
+  .tools{grid-template-columns:1fr!important}
+}
+
+
+/* =========================================================
+   CHOLOKINIBD V3 — CINEMATIC ANIME / 3D APP EXPERIENCE
+   Visual layer only. Existing Firebase + JS functionality stays.
+   ========================================================= */
+
+/* Site remains hidden behind the intro/auth flow until authenticated */
+body.appLocked .topbar,
+body.appLocked .header,
+body.appLocked main,
+body.appLocked footer,
+body.appLocked .bottomNav{visibility:hidden!important}
+
+/* CINEMATIC INTRO */
+.introScreen{
+  position:fixed!important;inset:0!important;z-index:99999!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(67,139,255,.22),transparent 23%),
+    radial-gradient(circle at 15% 80%,rgba(215,45,255,.18),transparent 28%),
+    radial-gradient(circle at 88% 18%,rgba(0,226,255,.14),transparent 25%),
+    #070914!important;
+  transition:opacity .9s ease,visibility .9s ease!important;
+}
+.introScreen.done{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.introGrid{
+  position:absolute!important;inset:-30%!important;opacity:.24!important;
+  background-image:
+    linear-gradient(rgba(76,129,255,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(76,129,255,.18) 1px,transparent 1px)!important;
+  background-size:55px 55px!important;
+  transform:perspective(500px) rotateX(62deg) translateY(16%) scale(1.4)!important;
+  animation:gridMove 5s linear infinite!important;
+}
+@keyframes gridMove{to{transform:perspective(500px) rotateX(62deg) translateY(22%) scale(1.4)}}
+.introGlow{
+  position:absolute!important;width:420px!important;height:420px!important;border-radius:50%!important;
+  background:radial-gradient(circle,rgba(38,157,255,.35),rgba(103,55,255,.12) 42%,transparent 70%)!important;
+  filter:blur(10px)!important;animation:introPulse 2.1s ease-in-out infinite!important;
+}
+@keyframes introPulse{50%{transform:scale(1.25);opacity:.7}}
+.introCore{
+  position:relative!important;z-index:3!important;text-align:center!important;
+  animation:introEnter 1.1s cubic-bezier(.2,.8,.2,1) both!important;
+}
+@keyframes introEnter{from{opacity:0;transform:translateY(30px) scale(.9)}to{opacity:1;transform:none}}
+.introLogo{
+  font-size:clamp(48px,11vw,94px)!important;font-weight:1000!important;letter-spacing:-5px!important;
+  color:#fff!important;text-shadow:0 0 35px rgba(57,160,255,.55),0 0 70px rgba(136,72,255,.25)!important;
+}
+.introLogo span{
+  background:linear-gradient(90deg,#39b8ff,#7d66ff,#ff4fc4)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;
+}
+.introSub{color:rgba(255,255,255,.62)!important;letter-spacing:5px!important;font-size:10px!important;margin-top:8px!important}
+.loader{
+  width:190px!important;height:4px!important;background:rgba(255,255,255,.12)!important;
+  margin:28px auto 0!important;border-radius:99px!important;overflow:hidden!important;
+}
+.loader i{
+  display:block!important;width:35%!important;height:100%!important;border-radius:99px!important;
+  background:linear-gradient(90deg,#32c8ff,#735dff,#ff42b5)!important;
+  animation:loadingBar 1.8s ease-in-out infinite!important;
+}
+@keyframes loadingBar{50%{margin-left:65%}}
+
+/* AUTH APPEARS ONLY AFTER INTRO */
+.authGate{
+  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+  transition:opacity .75s ease,visibility .75s ease!important;
+  background:#050711!important;
+}
+.authGate.show{
+  opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+}
+.authShell{
+  width:min(1120px,calc(100% - 30px))!important;
+  min-height:min(680px,calc(100vh - 50px))!important;
+  background:rgba(13,17,31,.92)!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 35px 100px rgba(0,0,0,.48)!important;
+  backdrop-filter:blur(25px)!important;
+}
+.authVisual{
+  position:relative!important;overflow:hidden!important;
+  background:
+    linear-gradient(135deg,rgba(8,15,33,.80),rgba(24,13,52,.78)),
+    radial-gradient(circle at 20% 30%,#216eff,transparent 35%),
+    radial-gradient(circle at 85% 75%,#f02ca2,transparent 30%)!important;
+}
+.authVisual:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(120deg,transparent 35%,rgba(255,255,255,.06) 50%,transparent 65%),
+    radial-gradient(ellipse at 50% 110%,rgba(37,200,255,.25),transparent 45%);
+  animation:animeLight 6s ease-in-out infinite!important;
+}
+@keyframes animeLight{50%{transform:translateX(5%);opacity:.65}}
+.authVisual:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+  background-size:32px 32px;mask-image:linear-gradient(to bottom,transparent,#000 35%,transparent 100%);
+}
+
+/* ANIME-STYLE BACKGROUND CHARACTER — abstract, not a real person */
+.authVisual .eyebrow,.authVisual h1,.authVisual p,.authVisual .authFeature{position:relative;z-index:7}
+.authVisual .eyebrow{margin-bottom:15px!important}
+.authVisual h1{
+  font-size:clamp(42px,5vw,72px)!important;line-height:.94!important;
+  letter-spacing:-3px!important;text-shadow:0 8px 35px rgba(0,0,0,.28)!important;
+}
+.authVisual h1 span{
+  background:linear-gradient(90deg,#6bd8ff,#8b7cff,#ff65c8)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;
+}
+
+/* anime figure */
+.animeHero{
+  position:absolute;right:5%;bottom:-5%;width:290px;height:470px;z-index:3;
+  opacity:.84;filter:drop-shadow(0 20px 35px rgba(0,0,0,.35));
+  transform-origin:50% 100%;animation:animeFloat 4s ease-in-out infinite;
+}
+.animeHero:before{
+  content:"";position:absolute;left:86px;top:35px;width:118px;height:132px;border-radius:48% 52% 45% 55%;
+  background:linear-gradient(135deg,#ffe1cf 0 48%,#f3b49d 49% 100%);
+  box-shadow:inset -16px -12px 0 rgba(0,0,0,.08);
+  clip-path:polygon(8% 15%,22% 4%,38% 10%,55% 0,73% 12%,92% 8%,100% 34%,92% 70%,78% 92%,49% 100%,18% 88%,0 55%);
+}
+.animeHero:after{
+  content:"";position:absolute;left:67px;top:8px;width:164px;height:125px;
+  background:linear-gradient(145deg,#15162d 0 52%,#34346d 53% 100%);
+  clip-path:polygon(0 30%,15% 7%,29% 20%,44% 0,57% 18%,73% 4%,100% 28%,86% 72%,69% 48%,55% 78%,41% 47%,24% 82%,12% 52%);
+  filter:drop-shadow(0 8px 7px rgba(0,0,0,.25));
+}
+.animeHero .body{
+  position:absolute;left:38px;top:145px;width:215px;height:310px;
+  border-radius:50px 50px 18px 18px;
+  background:linear-gradient(135deg,#17224d,#5133b8 55%,#ed3a9c);
+  clip-path:polygon(22% 0,78% 0,100% 22%,90% 100%,10% 100%,0 22%);
+}
+.animeHero .body:after{
+  content:"";position:absolute;left:88px;top:0;width:40px;height:310px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+}
+@keyframes animeFloat{50%{transform:translateY(-12px) rotate(-1deg)}}
+
+/* 3D OBJECTS */
+.auth3d{z-index:4!important;pointer-events:none!important}
+.auth3d:before{
+  content:"";position:absolute!important;width:330px!important;height:330px!important;border-radius:50%!important;
+  right:4%!important;top:5%!important;border:1px solid rgba(78,207,255,.20)!important;
+  box-shadow:0 0 0 28px rgba(78,207,255,.035),0 0 0 58px rgba(165,82,255,.03)!important;
+  animation:ringSpin 12s linear infinite!important;
+}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+.cube{
+  width:92px!important;height:92px!important;right:24%!important;top:34%!important;
+  transform-style:preserve-3d!important;animation:cubeSpin 8s linear infinite!important;
+}
+.cube i{
+  background:linear-gradient(135deg,rgba(72,201,255,.8),rgba(111,75,255,.75),rgba(255,62,183,.7))!important;
+  border:1px solid rgba(255,255,255,.45)!important;box-shadow:0 0 22px rgba(70,165,255,.25)!important;
+}
+@keyframes cubeSpin{
+  0%{transform:rotateX(-18deg) rotateY(0) rotateZ(8deg)}
+  50%{transform:rotateX(180deg) rotateY(180deg) rotateZ(20deg)}
+  100%{transform:rotateX(342deg) rotateY(360deg) rotateZ(8deg)}
+}
+.orbA{background:radial-gradient(circle at 30% 25%,#b9f5ff,#3ecbff 38%,#5e4cff 72%,transparent 74%)!important;box-shadow:0 0 60px rgba(57,189,255,.45)!important}
+.orbB{background:radial-gradient(circle at 30% 25%,#fff4b0,#ffc72e 38%,#ff4a9b 72%,transparent 74%)!important;box-shadow:0 0 55px rgba(255,85,175,.35)!important}
+
+/* AUTH FORM */
+.authForm{
+  background:rgba(255,255,255,.97)!important;
+  border-left:1px solid rgba(255,255,255,.08)!important;
+}
+.authForm .authBrand{font-size:30px!important;font-weight:950!important}
+.authForm h2{font-size:30px!important;letter-spacing:-1px!important}
+.authTabs{margin:22px 0!important}
+.authTabs button.active{
+  background:linear-gradient(135deg,#2478e8,#6948df)!important;color:#fff!important;
+}
+.authForm .input,.authForm input{
+  background:#f6f8fc!important;border:1px solid #e1e5ee!important;
+  min-height:48px!important;border-radius:14px!important;
+}
+
+/* HOME — complete app-dashboard feel */
+main.container{max-width:1220px!important}
+#home .section:first-of-type{padding-top:28px!important}
+#home .heroBox{
+  min-height:390px!important;
+  background:
+    linear-gradient(90deg,rgba(7,12,28,.96) 0%,rgba(13,23,55,.88) 48%,rgba(30,31,88,.58) 100%),
+    radial-gradient(circle at 83% 38%,#36c9ff,transparent 18%),
+    radial-gradient(circle at 70% 70%,#784cff,transparent 25%),
+    #0b1020!important;
+}
+#home .heroBox:after{
+  width:330px!important;height:330px!important;right:10%!important;top:9%!important;
+  border:1px solid rgba(86,214,255,.32)!important;
+  box-shadow:0 0 0 45px rgba(77,90,255,.05),0 0 0 90px rgba(255,75,187,.035)!important;
+  animation:ringSpin 18s linear infinite!important;
+}
+#home .heroBox:before{
+  width:170px!important;height:170px!important;right:20%!important;bottom:8%!important;
+  background:radial-gradient(circle,#5edaff,#5d45ff 45%,transparent 70%)!important;
+  filter:blur(3px)!important;animation:introPulse 3s ease-in-out infinite!important;
+}
+#home .heroText{max-width:650px!important}
+#home .heroText:after{
+  content:"3D GAMING STORE";display:block;margin-top:22px;width:max-content;
+  padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);
+  font-size:10px;letter-spacing:2px;font-weight:900;
+}
+
+/* colorful feature strip under hero */
+#home .section:before{
+  content:"SECURE PAYMENT   •   FAST TOP-UP   •   PREMIUM SUPPORT   •   VERIFIED ORDERS";
+  display:block;text-align:center;margin:6px 0 24px;padding:13px 10px;border-radius:17px;
+  background:#fff;border:1px solid #e7eaf0;color:#737988;font-size:10px;font-weight:900;letter-spacing:1.1px;
+  box-shadow:0 8px 25px rgba(35,45,70,.06);
+}
+
+/* mobile */
+@media(max-width:760px){
+  .authShell{min-height:0!important}
+  .authVisual{min-height:390px!important;padding:30px 24px!important}
+  .authForm{padding:25px!important}
+  .animeHero{right:-8%;bottom:-18px;transform:scale(.72);opacity:.43}
+  .authVisual h1{font-size:42px!important;max-width:70%}
+  .authVisual p{max-width:70%;font-size:12px!important;line-height:1.55!important}
+  .auth3d:before{width:240px!important;height:240px!important;right:-8%!important;top:8%!important}
+  .cube{width:64px!important;height:64px!important;right:26%!important;top:31%!important}
+  .cube i:nth-child(1){transform:rotateY(0deg) translateZ(32px)!important}
+  .cube i:nth-child(2){transform:rotateY(90deg) translateZ(32px)!important}
+  .cube i:nth-child(3){transform:rotateY(180deg) translateZ(32px)!important}
+  .cube i:nth-child(4){transform:rotateY(-90deg) translateZ(32px)!important}
+  .cube i:nth-child(5){transform:rotateX(90deg) translateZ(32px)!important}
+  .cube i:nth-child(6){transform:rotateX(-90deg) translateZ(32px)!important}
+  #home .heroBox{min-height:350px!important;padding:27px 22px!important}
+  #home .hero h1{font-size:42px!important}
+  #home .heroBox:after{right:-95px!important;top:7%!important}
+  #home .heroText:after{margin-top:15px}
+}
+
+</style>
+
+<style>
+body.appOpening main,body.appOpening .header,body.appOpening .topbar,body.appOpening .bottomNav{
+  animation:appOpen .75s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes appOpen{
+  from{opacity:0;transform:translateY(18px) scale(.985);filter:blur(5px)}
+  to{opacity:1;transform:none;filter:none}
+}
+</style>
+<script>
+window.addEventListener('cholo:app-open',function(){
+  document.body.classList.add('appOpening');
+  setTimeout(function(){document.body.classList.remove('appOpening')},900);
+});
+</script>
+
+
+<style id="cholo-v5-auth-fix">
+.authGate{
+  display:flex!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.authGate.show{
+  display:flex!important;
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+</style>
+
+
+<style id="cholo-v6-robust-flow">
+/* Robust visual flow: intro is the top layer, login is already underneath it.
+   This means Login/Register appears automatically when the intro fades,
+   even if a Firebase/network callback is delayed. */
+.introScreen{
+  z-index:3000!important;
+  display:flex!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.introScreen.done{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.authGate{
+  z-index:2900!important;
+  display:flex!important;
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+.authGate.show{
+  display:flex!important;
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+/* The app stays locked until Firebase confirms login. */
+/* Keep the shop visible while authentication is required. The auth panel sits above it. */
+body.appLocked .topbar,
+body.appLocked .header,
+body.appLocked main,
+body.appLocked footer,
+body.appLocked .bottomNav{
+  visibility:visible!important;
+}
+/* Login is a proper full-screen mobile panel. */
+@media(max-width:760px){
+  .authGate{padding:10px!important}
+  .authShell{
+    width:100%!important;
+    min-height:calc(100vh - 20px)!important;
+    max-height:calc(100vh - 20px)!important;
+    overflow:auto!important;
+    grid-template-columns:1fr!important;
+    border-radius:24px!important;
+  }
+  .authVisual{
+    min-height:310px!important;
+    padding:28px 22px!important;
+  }
+  .authForm{
+    padding:25px 20px 30px!important;
+  }
+}
+</style>
+
+
+<style id="cholo-v7-store">
+.featuredStore{
+  margin-top:30px;padding:25px;border-radius:30px;
+  background:linear-gradient(135deg,#0a1020,#151035 48%,#101b30);
+  border:1px solid rgba(110,130,255,.25);
+  box-shadow:0 24px 65px rgba(25,32,65,.18);
+}
+.featuredHead h2{font-size:32px;margin:8px 0 5px;color:#fff}
+.featuredHead p{margin:0;color:#9da8bb}
+.featuredTabs{display:flex;gap:8px;overflow:auto;margin:20px 0 16px}
+.featuredTab{
+  border:1px solid #303d58;background:#121a2b;color:#9aa7bb;
+  padding:10px 15px;border-radius:999px;font-weight:950;white-space:nowrap
+}
+.featuredTab.active{
+  background:linear-gradient(135deg,#2578ef,#7047e8);color:#fff;border-color:transparent;
+  box-shadow:0 8px 22px rgba(72,95,230,.25)
+}
+.featuredGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.featuredCard{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
+  border-radius:22px;overflow:hidden;transition:.22s;backdrop-filter:blur(10px)
+}
+.featuredCard:hover{transform:translateY(-6px);border-color:rgba(100,180,255,.5)}
+.featuredVisual{
+  height:190px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+.featuredVisual:before{
+  content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,.12);filter:blur(12px);animation:featuredGlow 3.5s ease-in-out infinite
+}
+@keyframes featuredGlow{50%{transform:scale(1.25);opacity:.55}}
+.featuredVisual span{font-size:82px;position:relative;z-index:2;filter:drop-shadow(0 15px 20px rgba(0,0,0,.28))}
+.featuredVisual small{
+  position:absolute;left:13px;top:12px;z-index:3;font-size:9px;font-weight:1000;
+  letter-spacing:1.5px;color:#fff;background:rgba(0,0,0,.26);padding:7px 9px;border-radius:999px
+}
+.gearOne{background:linear-gradient(135deg,#123d5c,#245de0,#6e43df)}
+.gearTwo{background:linear-gradient(135deg,#062d37,#00a9b7,#1f67e7)}
+.gearThree{background:linear-gradient(135deg,#211044,#6435dc,#e13d9e)}
+.gearFour{background:linear-gradient(135deg,#12351e,#09a36a,#1687e7)}
+.jerseyOne{background:linear-gradient(135deg,#10172d,#245be0,#a63bff)}
+.jerseyTwo{background:linear-gradient(135deg,#3d1a09,#d17c16,#e82e73)}
+.featuredInfo{padding:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.featuredInfo h3{margin:5px 0 4px;color:#fff;font-size:16px}
+.featuredInfo p{margin:0;color:#929db0;font-size:11px}
+.featuredInfo strong{font-size:18px;color:#6fe5ff;white-space:nowrap}
+.featuredType{font-size:9px;color:#78a7ff;font-weight:1000;letter-spacing:1.2px}
+.featuredCard.featureHidden{display:none}
+.profileWalletCard{
+  margin-top:16px;padding:20px;border-radius:25px;
+  background:linear-gradient(135deg,#182a70,#4b31d2 55%,#d72d9a);
+  color:#fff;box-shadow:0 20px 45px rgba(65,55,180,.22);position:relative;overflow:hidden
+}
+.profileWalletCard:after{
+  content:"";position:absolute;width:190px;height:190px;border-radius:50%;
+  right:-55px;top:-70px;border:1px solid rgba(255,255,255,.24);
+  box-shadow:0 0 0 25px rgba(255,255,255,.04),0 0 0 50px rgba(255,255,255,.025)
+}
+.profileWalletTop{display:flex;align-items:center;justify-content:space-between;gap:15px;position:relative;z-index:2}
+.profileWalletTop small{opacity:.72;letter-spacing:1px;font-weight:900}
+.profileWalletTop h2{margin:5px 0 0;font-size:34px}
+.profileWalletBtn{
+  border:0;border-radius:14px;padding:12px 16px;background:#fff;color:#32218b;
+  font-weight:1000;box-shadow:0 10px 24px rgba(0,0,0,.16)
+}
+.profileWalletSub{margin-top:10px;opacity:.78;font-size:11px;position:relative;z-index:2}
+@media(max-width:760px){
+  .featuredStore{padding:18px;border-radius:24px}
+  .featuredGrid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .featuredVisual{height:145px}
+  .featuredVisual span{font-size:60px}
+  .featuredInfo{display:block;padding:12px}
+  .featuredInfo strong{display:block;margin-top:8px}
+  .featuredInfo h3{font-size:14px}
+  .featuredInfo p{font-size:10px}
+  .profileWalletTop h2{font-size:29px}
+}
+</style>
+
+</head>
+<body>
+
+<script>
+/* CholoKiniBD V4 cinematic flow: INTRO -> LOGIN/REGISTER -> WEBSITE */
+(function(){
+  document.body.classList.add('appLocked');
+  const intro = document.getElementById('introScreen');
+  const gate = document.getElementById('authGate');
+
+  window.choloUnlockApp = function(){
+    document.body.classList.remove('appLocked');
+    document.body.dispatchEvent(new Event('cholo:app-open'));
+    if(gate){
+      gate.classList.remove('show');
+      gate.style.pointerEvents='none';
+    }
+  };
+
+  window.choloShowAuth = function(){
+    if(gate){
+      gate.classList.add('show');
+      gate.style.pointerEvents='auto';
+    }
+  };
+
+  setTimeout(function(){ if(intro) intro.classList.add('done'); }, 3400);
+  setTimeout(window.choloShowAuth, 3900);
+})();
+</script>
+
+
+<div class="introScreen" id="introScreen">
+  <div class="introGrid"></div><div class="introGlow"></div>
+  <div class="introCore"><div class="introLogo">Cholo<span>KiniBD</span></div><div class="introSub">GAMING • GEAR • TOP-UP • STORE</div><div class="loader"><i></i></div></div>
+</div>
+
+<div class="authGate" id="authGate">
+  <div class="authShell">
+    <div class="authVisual">
+      <div class="eyebrow">WELCOME TO OUR OFFICIAL WEBSITE</div>
+      <div class="auth3d" aria-hidden="true"><div class="orb orbA"></div><div class="orb orbB"></div><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <h1>WELCOME<br><span>TO CHOLOKINIBD.</span></h1>
+      <p>100% SECURE • NO PROBLEM • NO FEAR. Order with confidence and get premium customer care whenever you need it.</p>
+      <div class="authFeature"><span class="authPill">🛡 100% Secure</span><span class="authPill">⚡ Fast Order</span><span class="authPill">💬 Premium Customer Care</span></div>
+    </div>
+    <div class="authForm">
+      <div class="authBrand">Cholo<span>KiniBD</span></div>
+      <h2 id="gateTitle">Welcome back</h2><div class="muted" id="gateSub">Login to continue to your store.</div>
+      <div class="authTabs"><button type="button" id="gateLoginTab" class="active">LOGIN</button><button type="button" id="gateRegisterTab">CREATE ACCOUNT</button></div>
+      <div id="gateArea"></div>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">🚚 Fast delivery • Secure order verification • bKash: <b style="color:#fff;margin-left:4px">01642268349</b></div>
+
+<header class="header">
+  <div class="container nav">
+    <div class="logo">Cholo<b>KiniBD</b></div>
+    <div class="desktopLinks">
+      <button class="navbtn active" data-page="home">Home</button>
+      <button class="navbtn" data-page="orders">Orders</button>
+            <button class="navbtn" data-page="profile">Account</button>
+      <button class="navbtn" data-page="cart">Cart <span class="badge" id="cartCount">0</span></button>
+    </div>
+    <button class="iconBtn" id="topAuthBtn" title="Account">👤</button>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="heroBox">
+      <div class="heroGlow"></div>
+      <div class="heroText">
+        <span class="eyebrow">CholoKiniBD • VERIFIED ORDERS</span>
+        <h1>WELCOME TO<br><span>CHOLOKINIBD.</span></h1>
+        <p>Welcome to our official website. 100% secure, no problem, no fear. Order with confidence and enjoy premium customer care. Gaming products, top-up and trusted service — everything in one place.</p>
+        <div class="actions">
+          <button class="btn primary" id="shopNow">SHOP PRODUCTS</button>
+          <button class="btn secondary" id="walletHero">MY PROFILE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="shopSection">
+    <div class="head">
+      <div><h2>All Collection</h2><div class="muted">Gaming gear, accessories and more.</div></div>
+      <div class="tools">
+        <input class="input search" id="search" placeholder="🔎 Search products">
+        <select class="select" id="category"><option value="">All categories</option></select>
+      </div>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </section>
+
+    <div class="featuredStore">
+      <div class="featuredHead">
+        <div>
+          <div class="eyebrow">CHOLOKINIBD • GAMING COLLECTION</div>
+          <h2>Gaming Gear & Jerseys</h2>
+          <p>Gaming setup-এর জন্য accessories, gear এবং premium jersey collection.</p>
+        </div>
+      </div>
+
+      <div class="featuredTabs">
+        <button class="featuredTab active" data-feature-filter="all">ALL</button>
+        <button class="featuredTab" data-feature-filter="gear">GAMING GEAR</button>
+        <button class="featuredTab" data-feature-filter="jersey">JERSEY</button>
+      </div>
+
+      <div class="featuredGrid" id="featuredGrid">
+        <article class="featuredCard" data-feature-type="gear">
+          <div class="featuredVisual gearOne"><span>🎧</span><small>PRO AUDIO</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">GAMING GEAR</span><h3>Gaming Headset</h3><p>Immersive gaming audio setup.</p></div>
+            <strong>৳850</strong>
+          </div>
+        </article>
+
+        <article class="featuredCard" data-feature-type="gear">
+          <div class="featuredVisual gearTwo"><span>🖱️</span><small>PRECISION</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">GAMING GEAR</span><h3>Gaming Mouse</h3><p>Fast response for competitive play.</p></div>
+            <strong>৳650</strong>
+          </div>
+        </article>
+
+        <article class="featuredCard" data-feature-type="gear">
+          <div class="featuredVisual gearThree"><span>⌨️</span><small>RGB SETUP</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">GAMING GEAR</span><h3>RGB Gaming Keyboard</h3><p>Premium desktop gaming style.</p></div>
+            <strong>৳1,200</strong>
+          </div>
+        </article>
+
+        <article class="featuredCard" data-feature-type="gear">
+          <div class="featuredVisual gearFour"><span>🎮</span><small>CONSOLE</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">GAMING GEAR</span><h3>Gaming Controller</h3><p>Comfortable control for mobile & PC.</p></div>
+            <strong>৳1,050</strong>
+          </div>
+        </article>
+
+        <article class="featuredCard" data-feature-type="jersey">
+          <div class="featuredVisual jerseyOne"><span>👕</span><small>CHOLOKINIBD</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">JERSEY</span><h3>Premium Esports Jersey</h3><p>Custom team-style gaming jersey.</p></div>
+            <strong>৳650</strong>
+          </div>
+        </article>
+
+        <article class="featuredCard" data-feature-type="jersey">
+          <div class="featuredVisual jerseyTwo"><span>🏆</span><small>CHAMPION</small></div>
+          <div class="featuredInfo">
+            <div><span class="featuredType">JERSEY</span><h3>Champion Jersey</h3><p>Premium esports tournament look.</p></div>
+            <strong>৳750</strong>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</section>
+</section>
+
+<section id="cart" class="page">
+  <div class="section">
+    <div class="head"><div><h2>My Cart</h2><div class="muted">Review your items before checkout.</div></div><button class="btn secondary" data-page="home">Continue Shopping</button></div>
+    <div id="cartBox"></div>
+  </div>
+</section>
+
+<section id="orders" class="page">
+  <div class="section">
+    <div class="head"><div><h2>My Orders</h2><div class="muted">Track payment and delivery status.</div></div><button class="btn secondary" data-page="home">Shop More</button></div>
+    <div id="ordersBox"></div>
+  </div>
+</section>
+
+<section id="wallet" class="page">
+  <div class="section">
+    <div class="head"><div><h2>Wallet</h2><div class="muted">Send Money to bKash, then submit Amount + Transaction ID.</div></div><button class="btn primary" data-wallet-open="1">＋ ADD MONEY</button></div>
+    <div id="walletBox"></div>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <div class="section">
+    <div class="head">
+      <div><h2>My Profile</h2><div class="muted">Your account information.</div></div>
+      <div class="actions" style="margin:0">
+        <button class="btn secondary small" data-page="orders">📦 My Orders</button>
+        <button class="btn secondary small" data-page="wallet">💰 Wallet</button>
+      </div>
+    </div>
+    <div id="profileBox"></div>
+  </div>
+</section>
+
+<section id="help" class="page">
+  <div class="section">
+    <div class="panel" style="max-width:680px;margin:30px auto;text-align:center;padding:32px">
+      <div style="font-size:52px">💬</div>
+      <h2>Help Center</h2>
+      <p class="muted">Website, payment, wallet বা order নিয়ে সমস্যা হলে Admin-এর WhatsApp-এ message করুন।</p>
+      <a class="btn green" href="https://wa.me/8801642268349?text=Assalamualaikum%20NIBIR%20SHOP%20Admin%2C%20amar%20website%20problem%20ache." target="_blank" rel="noopener">WhatsApp Help</a>
+    </div>
+  </div>
+</section>
+
+<!-- Separate Admin Dashboard -->
+<section id="admin" class="page">
+  <div class="section">
+    <div class="head">
+      <div><h2>Admin Dashboard</h2><div class="muted">Orders, payments, users, products and media.</div></div>
+      <button class="btn secondary small" data-page="home">← Back to Shop</button>
+    </div>
+    <div id="adminBox"></div>
+  </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;color:#666d7d;padding:20px 0 100px;font-size:12px">CholoKiniBD • bKash 01642268349 • © 2026</footer>
+
+<nav class="bottomNav">
+  <button class="bottomBtn active" data-page="home"><span class="ico">⌂</span><span>HOME</span></button>
+  <button class="bottomBtn" data-page="cart"><span class="ico">🛒</span><span>CART</span></button>
+  <button class="bottomBtn" data-page="orders"><span class="ico">📦</span><span>ORDERS</span></button>
+  <button class="bottomBtn" data-page="profile"><span class="ico">●</span><span>PROFILE</span></button>
+</nav>
+
+<div class="modal" id="modal">
+  <div class="modalbox">
+    <button class="close" id="closeModal">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+import {
+  getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,
+  signOut,updateProfile,GoogleAuthProvider,signInWithPopup
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+import {
+  getFirestore,collection,doc,addDoc,setDoc,getDoc,getDocs,updateDoc,deleteDoc,
+  query,where,orderBy,onSnapshot,serverTimestamp,increment
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+
+const firebaseConfig={
+  apiKey:'AIzaSyCdrJQqCA4QSKu5M_6z20sPLhcvB8twTNk',
+  authDomain:'cholokinibd.firebaseapp.com',
+  projectId:'cholokinibd',
+  storageBucket:'cholokinibd.firebasestorage.app',
+  messagingSenderId:'27299536405',
+  appId:'1:27299536405:web:d7b877f11e8f5563e5781c',
+  measurementId:'G-CBY94XQ5B8'
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+const ADMIN_UID='2t0Ts19gP3XDLTCSNnQBf92Pu4r1';
+const BKASH='01642268349';
+
+let currentUser=null,userData=null,products=[];
+let cart=JSON.parse(localStorage.getItem('PRIMEX_CART')||'[]');
+let unsubProducts=null,unsubOrders=null,unsubWallet=null,unsubUser=null;
+let isAdmin=false,adminTab='orders';
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const money=n=>'৳'+Number(n||0).toLocaleString('en-BD');
+
+function toast(m){
+  $('toast').textContent=m;
+  $('toast').style.display='block';
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>$('toast').style.display='none',2600);
+}
+function modal(html){$('modalBody').innerHTML=html;$('modal').classList.add('open')}
+function closeModal(){$('modal').classList.remove('open')}
+$('closeModal').onclick=closeModal;
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
+
+function page(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=$(name);
+  if(!target)return;
+  target.classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='cart')renderCart();
+  if(name==='orders')renderOrders();
+  if(name==='wallet')renderWallet();
+  if(name==='profile')renderProfile();
+  if(name==='admin')renderAdmin();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-page]');
+  if(b){e.preventDefault();page(b.dataset.page)}
+});
+
+$('shopNow').onclick=()=>document.querySelector('#shopSection').scrollIntoView({behavior:'smooth'});
+$('walletHero').onclick=()=>page('profile');
+$('topAuthBtn').onclick=authModal;
+
+function updateUI(){
+  const walletBadge=$('walletBadge');
+  const cartCount=$('cartCount');
+  if(walletBadge) walletBadge.textContent=money(userData?.wallet||0);
+  if(cartCount) cartCount.textContent=cart.reduce((a,x)=>a+x.qty,0);
+}
+
+function authModal(){
+  if(currentUser){
+    modal(`
+      <h2>Account</h2>
+      <p><b>${esc(userData?.name||currentUser.displayName||'User')}</b></p>
+      <p class="muted">${esc(currentUser.email||'')}</p>
+      <div class="actions">
+        <button class="btn primary" id="goProfile">My Profile</button>
+        <button class="btn red" id="logoutBtn">Logout</button>
+      </div>
+      ${isAdmin?'<button class="btn secondary adminLink" id="goAdmin">⚙ Admin Dashboard</button>':''}
+    `);
+    $('goProfile').onclick=()=>{closeModal();page('profile')};
+    $('logoutBtn').onclick=async()=>{await signOut(auth);closeModal();toast('Logged out')};
+    if($('goAdmin'))$('goAdmin').onclick=()=>{closeModal();page('admin')};
+    return;
+  }
+  modal(`
+    <div class="tabs"><button class="tab active" id="loginTab">LOGIN</button><button class="tab" id="registerTab">REGISTER</button></div>
+    <div id="authArea"></div>
+  `);
+  renderAuth('login');
+}
+function renderAuth(mode){
+  const a=$('authArea');
+  a.innerHTML=mode==='login'?`
+    <form class="form" id="loginForm">
+      <input class="input" id="email" type="email" placeholder="Email Address" required>
+      <input class="input" id="password" type="password" placeholder="Password" required>
+      <button class="btn primary">LOGIN</button>
+    </form>
+    <p class="muted" style="font-size:12px;margin-top:10px">Admin access is controlled by the configured Firebase Admin UID.</p>
+  `:`
+    <form class="form" id="registerForm">
+      <input class="input" id="name" placeholder="Full Name" required>
+      <input class="input" id="username" placeholder="Username (Unique)">
+      <input class="input" id="regEmail" type="email" placeholder="Email Address" required>
+      <input class="input" id="regPhone" placeholder="Phone Number" required>
+      <div class="formgrid"><input class="input" id="birthYear" type="number" placeholder="Birth Year"><input class="input" id="age" type="number" placeholder="Age"></div>
+      <textarea class="textarea" id="regAddress" placeholder="Full Delivery Address"></textarea>
+      <input class="input" id="regPassword" type="password" minlength="6" placeholder="Password (6+ characters)" required>
+      <button class="btn primary">CREATE ACCOUNT</button>
+    </form>
+  `;
+  $('loginTab').onclick=()=>{renderAuth('login');$('loginTab').classList.add('active');$('registerTab').classList.remove('active')};
+  $('registerTab').onclick=()=>{renderAuth('register');$('registerTab').classList.add('active');$('loginTab').classList.remove('active')};
+
+  if(mode==='login'){
+    $('loginForm').onsubmit=async e=>{
+      e.preventDefault();
+      try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);closeModal();toast('Login successful')}catch(err){toast(err.message)}
+    };
+  }else{
+    $('registerForm').onsubmit=async e=>{
+      e.preventDefault();
+      try{
+        const c=await createUserWithEmailAndPassword(auth,$('regEmail').value.trim(),$('regPassword').value);
+        await updateProfile(c.user,{displayName:$('name').value.trim()});
+        await setDoc(doc(db,'users',c.user.uid),{
+          uid:c.user.uid,name:$('name').value.trim(),username:$('username').value.trim(),
+          email:$('regEmail').value.trim(),phone:$('regPhone').value.trim(),
+          birthYear:Number($('birthYear').value)||'',age:Number($('age').value)||'',
+          address:$('regAddress').value.trim(),wallet:0,photoUrl:'',
+          createdAt:serverTimestamp(),role:'user'
+        });
+        closeModal();toast('Account created successfully');
+      }catch(err){toast(err.message)}
+    };
+  }
+}
+
+async function loadUser(u){
+  currentUser=u;
+  if(unsubOrders){unsubOrders();unsubOrders=null}
+  if(unsubWallet){unsubWallet();unsubWallet=null}
+  if(unsubUser){unsubUser();unsubUser=null}
+  if(!u){userData=null;isAdmin=false;updateUI();return}
+  isAdmin=u.uid===ADMIN_UID;
+  const userRef=doc(db,'users',u.uid);
+  try{
+    const s=await getDoc(userRef);
+    userData=s.exists()?s.data():{uid:u.uid,name:u.displayName||'',email:u.email||'',wallet:0};
+    updateUI();
+    unsubUser=onSnapshot(userRef, snap=>{
+      if(snap.exists()) userData=snap.data();
+      else if(!userData) userData={uid:u.uid,name:u.displayName||'',email:u.email||'',wallet:0};
+      updateUI();
+      if($('wallet')?.classList.contains('active')) renderWallet();
+      if($('profile')?.classList.contains('active')) renderProfile();
+    }, err=>console.warn('User wallet listener:',err.message));
+  }catch(err){
+    userData={uid:u.uid,name:u.displayName||'',email:u.email||'',wallet:0};
+    updateUI();
+  }
+  listenUserData();
+}
+function listenUserData(){
+  if(!currentUser)return;
+  unsubOrders=onSnapshot(query(collection(db,'orders'),where('userId','==',currentUser.uid),orderBy('createdAt','desc')),()=>{if($('orders').classList.contains('active'))renderOrders()});
+  unsubWallet=onSnapshot(query(collection(db,'walletRequests'),where('userId','==',currentUser.uid)),()=>{if($('wallet').classList.contains('active'))renderWallet()},err=>console.warn('Wallet requests listener:',err.message));
+}
+
+function listenProducts(){
+  if(unsubProducts)unsubProducts();
+  unsubProducts=onSnapshot(collection(db,'products'),snap=>{
+    products=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderProducts();fillCategories();
+  },err=>toast('Products load error: '+err.message));
+}
+function fillCategories(){
+  const cs=[...new Set(products.map(p=>p.category).filter(Boolean))];
+  $('category').innerHTML='<option value="">All categories</option>'+cs.map(c=>`<option value="${esc(c)}">${esc(c)==='uid_topup'?'UID TOP-UP':esc(c)==='product'?'PRODUCT':esc(c)}</option>`).join('');
+}
+function placeholderImage(name){
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="#171920"/><text x="50%" y="50%" text-anchor="middle" font-size="38" fill="#ff8a00">${esc(name||'CholoKiniBD')}</text></svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+function renderProducts(){
+  const q=($('search').value||'').toLowerCase().trim(),cat=$('category').value;
+  const ps=products.filter(p=>
+    (!q||String(p.name||'').toLowerCase().includes(q)||String(p.description||'').toLowerCase().includes(q)) &&
+    (!cat||p.category===cat)
+  );
+  $('productGrid').innerHTML=ps.length?ps.map(p=>`
+    <article class="card">
+      <div class="pic">
+        <span class="tag">${esc(p.category||'product')==='uid_topup'?'UID TOP-UP':'PRODUCT'}</span>
+        <img src="${esc(p.imageUrl||placeholderImage(p.name))}" alt="${esc(p.name)}" onerror="this.src='${placeholderImage(p.name)}'">
+      </div>
+      <div class="body">
+        <h3 title="${esc(p.name)}">${esc(p.name)}</h3>
+        <div class="muted" style="font-size:11px;min-height:16px">${esc(p.description||'')}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span class="price">${money(p.price)}</span><span class="stock">Stock: ${Number(p.stock||0)}</span>
+        </div>
+        <div class="productActions">
+          <button class="btn secondary small" data-view="${p.id}">VIEW DETAILS</button>
+          <button class="btn primary small" data-order="${p.id}">${isTopup(p)?'TOP-UP NOW':'ORDER NOW'}</button>
+        </div>
+      </div>
+    </article>
+  `).join(''):'<div class="panel empty" style="grid-column:1/-1">No products found.</div>';
+}
+$('search').oninput=renderProducts;
+$('category').onchange=renderProducts;
+
+document.addEventListener('click',e=>{
+  const view=e.target.closest('[data-view]');
+  const order=e.target.closest('[data-order]');
+  if(view)viewProduct(view.dataset.view);
+  if(order){
+    const id=order.dataset.order;
+    const p=products.find(x=>x.id===id);
+    if(isTopup(p)){
+      viewProduct(id);
+    }else{
+      addToCart(id,'');
+      page('cart');
+    }
+  }
+});
+
+function isTopup(p){
+  if(!p)return false;
+  const c=String(p.category||'').toLowerCase().replace(/[-_ ]/g,'');
+  return c==='topup'||c==='digitaltopup'||c==='uidtopup'||c==='uidtopup' || String(p.type||'').toLowerCase()==='topup' || String(p.type||'').toLowerCase()==='uidtopup';
+}
+function isPhysical(p){ return !!p && !isTopup(p); }
+function viewProduct(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  const needsUid=isTopup(p);
+  modal(`
+    <h2>${esc(p.name)}</h2>
+    <img src="${esc(p.imageUrl||placeholderImage(p.name))}" style="width:100%;max-height:300px;object-fit:cover;border-radius:16px;margin:8px 0">
+    <p class="muted">${esc(p.description||'')}</p>
+    <h2 style="color:var(--orange)">${money(p.price)}</h2>
+    ${needsUid?`<div class="notice"><b>TOP-UP ORDER</b><br>এই Top-Up-এর জন্য শুধু আপনার IN GAME UID দিন। কোনো delivery address লাগবে না।</div><input class="input" id="gameUid" placeholder="IN GAME UID" inputmode="numeric" required style="margin-top:10px">`:''}
+    <div class="actions">
+      <button class="btn primary" id="modalAdd">${needsUid?'ADD TOP-UP':'ADD TO CART'}</button>
+      <button class="btn secondary" id="modalBuy">${needsUid?'ORDER NOW':'ORDER NOW'}</button>
+    </div>
+  `);
+  $('modalAdd').onclick=()=>{
+    const uid=$('gameUid')?.value.trim()||'';
+    if(needsUid&&!uid)return toast('IN GAME UID দিন');
+    addToCart(id,uid);closeModal();
+  };
+  $('modalBuy').onclick=()=>{
+    const uid=$('gameUid')?.value.trim()||'';
+    if(needsUid&&!uid)return toast('IN GAME UID দিন');
+    addToCart(id,uid);closeModal();page('cart');
+  };
+}
+function addToCart(id,gameUid=''){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  if(Number(p.stock||0)<1)return toast('Out of stock');
+  if(cart.length){
+    const existing=products.find(x=>x.id===cart[0].productId);
+    if(existing && isTopup(existing)!==isTopup(p))return toast('Top-Up ও Product একসাথে order করা যাবে না');
+  }
+  if(isTopup(p)&&!gameUid)return toast('IN GAME UID দিন');
+  const x=cart.find(i=>i.productId===id&&i.gameUid===gameUid);
+  if(x)x.qty++;else cart.push({productId:id,qty:1,gameUid});
+  localStorage.setItem('PRIMEX_CART',JSON.stringify(cart));updateUI();toast('Added to cart');
+}
+function removeCart(i){cart.splice(i,1);localStorage.setItem('PRIMEX_CART',JSON.stringify(cart));updateUI();renderCart()}
+function changeQty(i,d){
+  if(!cart[i])return;
+  cart[i].qty+=d;if(cart[i].qty<1)cart.splice(i,1);
+  localStorage.setItem('PRIMEX_CART',JSON.stringify(cart));updateUI();renderCart()
+}
+function renderCart(){
+  if(!cart.length){$('cartBox').innerHTML='<div class="panel empty">Your cart is empty.<br><button class="btn primary" data-page="home" style="margin-top:12px">SHOP PRODUCTS</button></div>';return}
+  let total=0;
+  const rows=cart.map((i,idx)=>{
+    const p=products.find(x=>x.id===i.productId);if(!p)return '';
+    const sub=Number(p.price||0)*i.qty;total+=sub;
+    return `<div class="panel cartRow">
+      <div class="cartItem"><img class="cartImg" src="${esc(p.imageUrl||placeholderImage(p.name))}">
+        <div><b>${esc(p.name)}</b><br><span class="muted">${money(p.price)} × ${i.qty}</span>${i.gameUid?`<br><span class="muted">UID: ${esc(i.gameUid)}</span>`:''}</div>
+      </div>
+      <div style="text-align:right"><b>${money(sub)}</b><div class="qty" style="margin-top:7px"><button data-qty="${idx}" data-d="-1">−</button><span>${i.qty}</span><button data-qty="${idx}" data-d="1">+</button></div><button class="btn red small" data-remove="${idx}" style="margin-top:7px">Remove</button></div>
+    </div>`;
+  }).join('');
+  $('cartBox').innerHTML=rows+`<div class="panel"><div class="between"><h3>Subtotal</h3><h2 style="color:var(--orange)">${money(total)}</h2></div><button class="btn primary" id="checkoutBtn" style="width:100%">PROCEED TO CHECKOUT</button></div>`;
+  $('checkoutBtn').onclick=checkout;
+}
+document.addEventListener('click',e=>{
+  const q=e.target.closest('[data-qty]'),r=e.target.closest('[data-remove]');
+  if(q)changeQty(Number(q.dataset.qty),Number(q.dataset.d));
+  if(r)removeCart(Number(r.dataset.remove));
+});
+
+async function checkout(){
+  if(!currentUser)return authModal();
+  if(!cart.length)return toast('Cart is empty');
+  let subtotal=0;
+  const topupOrder=isTopup(products.find(x=>x.id===cart[0].productId));
+  cart.forEach(i=>{const p=products.find(x=>x.id===i.productId);if(p)subtotal+=Number(p.price||0)*i.qty});
+  modal(`
+    <h2>${topupOrder?'Top-Up Order':'Checkout'}</h2>
+    <div class="notice">bKash: <b>${BKASH}</b>${topupOrder
+      ? (String(products.find(x=>x.id===cart[0].productId)?.name||'').toLowerCase().includes('efootball') || String(products.find(x=>x.id===cart[0].productId)?.category||'').toLowerCase().includes('efootball')
+          ? '<br>eFootball order-এর জন্য eFootball ID, Username ও Phone Number লাগবে।'
+          : '<br>Free Fire order-এর জন্য শুধু Enter UID লাগবে।')
+      : '<br>ঢাকার ভিতরে delivery fee <b>৳60</b> • ঢাকার বাইরে <b>৳100</b>'}</div>
+    <form class="form" id="checkoutForm" style="margin-top:10px">
+      ${topupOrder
+        ? ((String(products.find(x=>x.id===cart[0].productId)?.name||'').toLowerCase().includes('efootball') || String(products.find(x=>x.id===cart[0].productId)?.category||'').toLowerCase().includes('efootball'))
+            ? `<input class="input" id="topupUid" value="${esc(cart[0].gameUid||'')}" placeholder="eFootball ID" required>
+               <input class="input" id="gameUsername" placeholder="Username" required>
+               <input class="input" id="gamePhone" value="${esc(userData?.phone||'')}" placeholder="Phone Number" required>`
+            : `<input class="input" id="topupUid" value="${esc(cart[0].gameUid||'')}" placeholder="Enter UID" required>`)
+        : `<div class="formgrid"><input class="input" id="cPhone" value="${esc(userData?.phone||'')}" placeholder="Phone Number" required><select class="select" id="area"><option value="dhaka">ঢাকার ভিতরে — ৳60</option><option value="outside">ঢাকার বাইরে — ৳100</option></select></div>
+      <div class="formgrid"><input class="input" id="district" placeholder="জেলা" required><input class="input" id="upazila" placeholder="সদর / উপজেলা / থানা" required></div>
+      <div class="formgrid"><input class="input" id="village" placeholder="গ্রাম / এলাকা" required><input class="input" id="road" placeholder="রোড / বাড়ি নম্বর" required></div>
+      <textarea class="textarea" id="address" placeholder="বিস্তারিত ঠিকানা" required>${esc(userData?.address||'')}</textarea>`}
+      <select class="select" id="payMethod"><option value="bkash">bKash — Transaction ID</option><option value="wallet">Wallet — Use Wallet Balance</option></select>
+      <div id="payExtra"></div>
+      <div class="notice">bKash হলে Admin Transaction ID verify করবে। Wallet হলে Admin approve করে wallet থেকে টাকা কাটবে।</div>
+      <button class="btn primary">SUBMIT ORDER</button>
+    </form>
+  `);
+  const payFields=()=>{
+    $('payExtra').innerHTML=$('payMethod').value==='bkash'
+      ?`<input class="input" id="txid" placeholder="bKash Transaction ID" required>`
+      :`<div class="notice">Available wallet: <b>${money(userData?.wallet||0)}</b></div>`;
+  };
+  $('payMethod').onchange=payFields;payFields();
+  $('checkoutForm').onsubmit=async e=>{
+    e.preventDefault();
+    const fee=topupOrder?0:($('area').value==='dhaka'?60:100),total=subtotal+fee;
+    if($('payMethod').value==='wallet'&&Number(userData?.wallet||0)<total)return toast('Wallet balance is not enough');
+    if(topupOrder && !$('topupUid').value.trim())return toast('UID / eFootball ID দিন');
+    const isEfootball=topupOrder && (String(products.find(x=>x.id===cart[0].productId)?.name||'').toLowerCase().includes('efootball') || String(products.find(x=>x.id===cart[0].productId)?.category||'').toLowerCase().includes('efootball'));
+    if(isEfootball && !$('gameUsername').value.trim())return toast('Username দিন');
+    if(isEfootball && !$('gamePhone').value.trim())return toast('Phone Number দিন');
+    const items=cart.map(i=>{const p=products.find(x=>x.id===i.productId);return {productId:p.id,name:p.name,price:p.price,qty:i.qty,gameUid:topupOrder?$('topupUid').value.trim():(i.gameUid||''),orderType:topupOrder?'Top-Up':'Product'}});
+    try{
+      await addDoc(collection(db,'orders'),{
+        userId:currentUser.uid,userName:userData?.name||currentUser.displayName||'',email:currentUser.email,
+        orderType:topupOrder?'Top-Up':'Product',
+        phone:topupOrder?(isEfootball?$('gamePhone').value.trim():''):$('cPhone').value.trim(),district:topupOrder?'':$('district').value.trim(),upazila:topupOrder?'':$('upazila').value.trim(),
+        village:topupOrder?'':$('village').value.trim(),road:topupOrder?'':$('road').value.trim(),address:topupOrder?'':$('address').value.trim(),
+        deliveryArea:topupOrder?'digital':$('area').value,deliveryFee:fee,items,subtotal,total,
+        gameUid:topupOrder && $('topupUid') ? $('topupUid').value.trim():'',
+        gameUsername:topupOrder && $('gameUsername') ? $('gameUsername').value.trim():'',
+        gamePhone:topupOrder && $('gamePhone') ? $('gamePhone').value.trim():'',
+        gameType:topupOrder ? ((String(products.find(x=>x.id===cart[0].productId)?.name||'').toLowerCase().includes('efootball') || String(products.find(x=>x.id===cart[0].productId)?.category||'').toLowerCase().includes('efootball')) ? 'eFootball' : 'Free Fire') : '',
+        txid:$('payMethod').value==='bkash'?$('txid').value.trim():'',
+        payment:$('payMethod').value==='wallet'?'Wallet Pending':'Pending',
+        paymentMethod:$('payMethod').value,status:'Order Pending',delivery:topupOrder?'Digital':'Pending',createdAt:serverTimestamp()
+      });
+      cart=[];localStorage.removeItem('PRIMEX_CART');updateUI();closeModal();page('orders');toast('Order submitted to Admin');
+    }catch(err){toast(err.message)}
+  };
+}
+
+async function renderOrders(){
+  if(!currentUser){$('ordersBox').innerHTML='<div class="panel empty">Login first.</div>';return}
+  try{
+    const snap=await getDocs(query(collection(db,'orders'),where('userId','==',currentUser.uid),orderBy('createdAt','desc')));
+    const os=snap.docs.map(d=>({id:d.id,...d.data()}));
+    $('ordersBox').innerHTML=os.length?os.map(o=>`
+      <div class="panel">
+        <div class="between"><b>ORDER #${o.id.slice(-8)}</b><span class="status ${o.payment==='Approved'?'approved':o.payment==='Rejected'?'rejected':'pending'}">${esc(o.status||'Order Pending')}</span></div>
+        <p>${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty}${i.gameUid?' • UID '+esc(i.gameUid):''}`).join('<br>')}</p>
+        <p><b>Total ${money(o.total)}</b> • ${
+          o.orderType==='Top-Up'
+            ? (o.gameType==='eFootball'
+                ? `eFootball ID: ${esc(o.gameUid||'-')} • Username: ${esc(o.gameUsername||'-')} • Phone: ${esc(o.gamePhone||'-')}`
+                : `Free Fire UID: ${esc(o.gameUid||((o.items||[])[0]?.gameUid)||'-')}`)
+            : 'Delivery: '+esc(o.delivery||'Pending')
+        }</p>
+        ${o.orderType==='Product'?`<p class="muted">Address: ${esc([o.district,o.upazila,o.village,o.road,o.address].filter(Boolean).join(', '))}</p>`:''}
+        <p class="muted">Payment: ${esc(o.payment||'Pending')} • TXID: ${esc(o.txid||'')}</p>
+      </div>`).join(''):'<div class="panel empty">No orders yet.</div>';
+  }catch(err){$('ordersBox').innerHTML='<div class="panel empty">Order load error. If Firebase asks for an index, create the suggested Firestore index.</div>'}
+}
+
+async function renderWallet(){
+  if(!currentUser){$('walletBox').innerHTML='<div class="panel empty">Login to use Wallet.</div>';return}
+  try{
+    const snap=await getDocs(query(collection(db,'walletRequests'),where('userId','==',currentUser.uid)));
+    const rs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{
+      const at=a.createdAt?.toMillis?a.createdAt.toMillis():0;
+      const bt=b.createdAt?.toMillis?b.createdAt.toMillis():0;
+      return bt-at;
+    });
+    $('walletBox').innerHTML=`
+      <div class="walletHero">
+        <div class="walletTitle">✨ CholoKiniBD WALLET</div>
+        <div style="font-size:12px;opacity:.85;margin-top:12px">TOTAL BALANCE</div>
+        <div class="walletBalance">${money(userData?.wallet||0)}</div>
+      </div>
+      <div class="walletActions">
+        <button class="walletAction" id="walletAddBtn">＋ Add Money</button>
+        <button class="walletAction yellow" id="walletHistoryBtn">↺ Transaction History</button>
+      </div>
+      <div class="panel" id="walletAddPanel">
+        <h3>💳 Add Money</h3>
+        <p class="muted">প্রথমে নিচের bKash নম্বরে Send Money করুন। তারপর Amount ও Transaction ID দিন। Admin approve করলে টাকা Wallet-এ যোগ হবে।</p>
+        <div class="bkashBox">
+          <b>bKash Personal Account</b>
+          <div class="bkashNumber"><strong style="font-size:18px">${BKASH}</strong><button class="copyBtn" id="copyBkash">COPY</button></div>
+        </div>
+        <form class="form" id="walletForm" style="margin-top:12px">
+          <input class="input" id="amount" type="number" min="1" step="1" placeholder="Enter Amount (৳)" required>
+          <input class="input" id="tx" placeholder="Enter Transaction ID" required>
+          <button class="btn primary">VERIFY / SEND REQUEST</button>
+        </form>
+      </div>
+      <div class="panel" id="walletHistoryPanel">
+        <h3>Transaction History</h3>
+        ${rs.length?rs.map(r=>`<div class="historyRow"><div><b>Deposit ${money(r.amount)}</b><br><small class="muted">TXID: ${esc(r.txid||'-')}</small></div><span class="status ${r.status==='Approved'?'approved':r.status==='Rejected'?'rejected':'pending'}">${esc(r.status||'Pending')}</span></div>`).join(''):'<span class="muted">No transactions yet.</span>'}
+      </div>`;
+    $('copyBkash').onclick=async()=>{try{await navigator.clipboard.writeText(BKASH);toast('bKash number copied')}catch(e){toast('Number: '+BKASH)}};
+    $('walletHistoryBtn').onclick=()=>document.getElementById('walletHistoryPanel')?.scrollIntoView({behavior:'smooth',block:'start'});
+    $('walletAddBtn').onclick=()=>document.getElementById('walletAddPanel')?.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelector('[data-wallet-open=\"1\"]')?.addEventListener('click',()=>document.getElementById('walletAddPanel')?.scrollIntoView({behavior:'smooth',block:'start'}));
+    $('walletForm').onsubmit=async e=>{
+      e.preventDefault();
+      const amount=Number($('amount').value),txid=$('tx').value.trim();
+      if(!amount||amount<1)return toast('Enter a valid amount');
+      if(!txid)return toast('Enter Transaction ID');
+      try{
+        await addDoc(collection(db,'walletRequests'),{userId:currentUser.uid,userName:userData?.name||'',email:currentUser.email||'',amount,txid,status:'Pending',createdAt:serverTimestamp()});
+        toast('Request sent to Admin');
+        renderWallet();
+      }catch(err){toast('Request failed: '+(err.message||'Firebase error'))}
+    };
+  }catch(err){
+    console.error('Wallet load error:',err);
+    $('walletBox').innerHTML=`<div class="panel empty"><b>Wallet load error.</b><br><small class="muted">${esc(err.message||'Unknown Firebase error')}</small></div>`;
+  }
+}
+function renderProfile(){
+  if(!currentUser){
+    $('profileBox').innerHTML=`<div class="panel empty"><h3>Login required</h3><button class="btn primary" id="profileLogin">LOGIN / REGISTER</button></div>`;
+    $('profileLogin').onclick=authModal;return;
+  }
+  const p=userData||{};
+  const photo=p.photoUrl||'';
+  $('profileBox').innerHTML=`
+    <div class="profileTop">
+      <div class="avatarWrap">
+        <img class="avatar" id="profileAvatar" src="${esc(photo||placeholderAvatar())}" onerror="this.src='${placeholderAvatar()}'">
+        <button class="btn primary changePhoto" id="changePhoto">📷 Change Photo</button>
+      </div>
+      <div>
+        <h1 class="profileName">${esc(p.name||currentUser.displayName||'NIBIR USER')}</h1>
+        <div class="username">@${esc(p.username||'user')}</div>
+      </div>
+    </div>
+    <div class="profileWalletCard">
+      <div class="profileWalletTop">
+        <div>
+          <small>MY WALLET</small>
+          <h2>${money(p.wallet||0)}</h2>
+        </div>
+        <button class="profileWalletBtn" id="profileWalletOpen">WALLET</button>
+      </div>
+      <div class="profileWalletSub">Add Money • Transaction History • bKash ${BKASH}</div>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn primary" id="profileAddMoney2">＋ ADD MONEY</button>
+      <button class="btn secondary" id="profileWalletHistory">↺ TRANSACTION HISTORY</button>
+    </div>
+    <div class="infoList">
+      <div class="infoRow"><div class="infoLabel"><span class="infoIcon">✉</span>Email</div><div class="infoValue">${esc(currentUser.email||p.email||'-')}</div></div>
+      <div class="infoRow"><div class="infoLabel"><span class="infoIcon">☎</span>Phone</div><div class="infoValue">${esc(p.phone||'-')}</div></div>
+      <div class="infoRow"><div class="infoLabel"><span class="infoIcon">▣</span>Birth Year</div><div class="infoValue">${esc(p.birthYear||'-')}</div></div>
+      <div class="infoRow"><div class="infoLabel"><span class="infoIcon">◉</span>Age</div><div class="infoValue">${esc(p.age||'-')}</div></div>
+      <div class="infoRow"><div class="infoLabel"><span class="infoIcon">⌖</span>Address</div><div class="infoValue">${esc(p.address||'-')}</div></div>
+    </div>
+    <div class="actions" style="margin-top:14px">
+      <button class="btn primary" id="editProfile">✎ EDIT PROFILE</button>
+      <button class="btn secondary" id="profileLogout">LOGOUT</button>
+      ${isAdmin?'<button class="btn secondary" id="profileAdmin">⚙ ADMIN DASHBOARD</button>':''}
+    </div>`;
+  $('changePhoto').onclick=changePhoto;
+  $('profileWalletOpen').onclick=()=>page('wallet');
+  $('profileAddMoney2').onclick=()=>page('wallet');
+  $('profileWalletHistory').onclick=()=>{page('wallet');setTimeout(()=>document.getElementById('walletHistoryPanel')?.scrollIntoView({behavior:'smooth'}),120)};
+  $('editProfile').onclick=editProfile;
+  $('profileLogout').onclick=async()=>{await signOut(auth);toast('Logged out')};
+  if($('profileAdmin'))$('profileAdmin').onclick=()=>page('admin');
+}
+function placeholderAvatar(){
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="100%" height="100%" fill="#596783"/><circle cx="150" cy="105" r="55" fill="#e9eef0"/><path d="M55 285c10-70 55-95 95-95s85 25 95 95" fill="#e9eef0"/></svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+async function changePhoto(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async()=>{
+    const file=inp.files?.[0];if(!file)return;
+    try{
+      const data=await compressImage(file,300,220);
+      await updateDoc(doc(db,'users',currentUser.uid),{photoUrl:data});
+      userData={...userData,photoUrl:data};renderProfile();toast('Photo updated');
+    }catch(err){toast('Photo update failed')}
+  };
+  inp.click();
+}
+function compressImage(file,maxSide=300,quality=.72){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>{const im=new Image();im.onload=()=>{
+      let w=im.width,h=im.height,s=Math.min(1,maxSide/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+      const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',quality));
+    };im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file)
+  })
+}
+function editProfile(){
+  const p=userData||{};
+  modal(`
+    <h2>Edit Profile</h2>
+    <form class="form" id="profileForm">
+      <input class="input" id="epName" value="${esc(p.name||'')}" placeholder="Full Name" required>
+      <input class="input" id="epUsername" value="${esc(p.username||'')}" placeholder="Username (Unique)">
+      <input class="input" id="epPhone" value="${esc(p.phone||'')}" placeholder="Phone Number" required>
+      <div class="formgrid"><input class="input" id="epBirth" type="number" value="${esc(p.birthYear||'')}" placeholder="Birth Year"><input class="input" id="epAge" type="number" value="${esc(p.age||'')}" placeholder="Age"></div>
+      <textarea class="textarea" id="epAddress" placeholder="Full Delivery Address">${esc(p.address||'')}</textarea>
+      <button class="btn primary">SAVE PROFILE</button>
+    </form>`);
+  $('profileForm').onsubmit=async e=>{
+    e.preventDefault();
+    try{
+      const data={name:$('epName').value.trim(),username:$('epUsername').value.trim(),phone:$('epPhone').value.trim(),birthYear:Number($('epBirth').value)||'',age:Number($('epAge').value)||'',address:$('epAddress').value.trim()};
+      await updateDoc(doc(db,'users',currentUser.uid),data);
+      await updateProfile(currentUser,{displayName:data.name});
+      userData={...userData,...data};closeModal();renderProfile();toast('Profile updated');
+    }catch(err){toast(err.message)}
+  };
+}
+
+/* ADMIN DASHBOARD */
+async function renderAdmin(){
+  isAdmin=!!currentUser&&currentUser.uid===ADMIN_UID;
+  if(!isAdmin){
+    $('adminBox').innerHTML=`<div class="panel" style="max-width:560px;margin:auto"><h3>Admin Access</h3><p class="muted">Admin Dashboard is separate and protected by Firebase Authentication + Admin UID.</p><button class="btn primary" id="adminLogin">LOGIN AS ADMIN</button></div>`;
+    $('adminLogin').onclick=authModal;return;
+  }
+  $('adminBox').innerHTML=`
+    <div class="stats">
+      <div class="stat"><small>Admin</small><strong>✓</strong></div>
+      <div class="stat"><small>Payment Verification</small><strong>ON</strong></div>
+      <div class="stat"><small>bKash</small><strong style="font-size:15px">${BKASH}</strong></div>
+      <div class="stat"><small>Delivery</small><strong>60 / 100</strong></div>
+    </div>
+    <div class="tabs" style="margin-top:14px">
+      <button class="tab ${adminTab==='orders'?'active':''}" data-admin-tab="orders">ORDERS</button>
+      <button class="tab ${adminTab==='users'?'active':''}" data-admin-tab="users">USERS / WALLET</button>
+      <button class="tab ${adminTab==='products'?'active':''}" data-admin-tab="products">PRODUCTS</button>
+      <button class="tab ${adminTab==='media'?'active':''}" data-admin-tab="media">MEDIA</button>
+    </div>
+    <div id="adminContent"></div>`;
+  document.querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>{adminTab=b.dataset.adminTab;renderAdmin()});
+  renderAdminTab();
+}
+async function renderAdminTab(){
+  if(adminTab==='orders')await adminOrders();
+  if(adminTab==='users')await adminUsers();
+  if(adminTab==='products')adminProducts();
+  if(adminTab==='media')adminMedia();
+}
+async function adminOrders(){
+  try{
+    const snap=await getDocs(query(collection(db,'orders'),orderBy('createdAt','desc')));
+    const os=snap.docs.map(d=>({id:d.id,...d.data()}));
+    $('adminContent').innerHTML=`<div class="panel tablewrap"><h3>Orders & Payment Verification</h3><table class="table"><tr><th>Order</th><th>User</th><th>Payment</th><th>Location</th><th>Actions</th></tr>
+    ${os.length?os.map(o=>`<tr>
+      <td><b>#${o.id.slice(-8)}</b><br>${(o.items||[]).map(i=>`${esc(i.name)} × ${i.qty}${i.gameUid?'<br>UID: '+esc(i.gameUid):''}`).join('<br>')}<br><b>${money(o.total)}</b><br>TXID: ${esc(o.txid||'')}</td>
+      <td>${esc(o.userName||'')}<br>UID: ${esc(o.userId||'')}<br>${esc(o.phone||'')}</td>
+      <td><span class="status ${o.payment==='Approved'?'approved':o.payment==='Rejected'?'rejected':'pending'}">${esc(o.payment||'Pending')}</span><br>${esc(o.status||'')}</td>
+      <td>${o.orderType==='Top-Up'
+  ? `<b>${esc(o.gameType||'TOP-UP')}</b><br>
+     ${o.gameType==='eFootball'
+       ? `eFootball ID: ${esc(o.gameUid||'')}<br>Username: ${esc(o.gameUsername||'')}<br>Phone: ${esc(o.gamePhone||'')}`
+       : `UID: ${esc(o.gameUid||((o.items||[])[0]?.gameUid)||'')}`}`
+  : `${esc(o.district||'')}, ${esc(o.upazila||'')}<br>${esc(o.village||'')}, ${esc(o.road||'')}<br>${esc(o.address||'')}<br>Fee: ${money(o.deliveryFee)}`}</td>
+      <td>
+        ${o.payment==='Pending'?`<button class="btn green small" data-approve="${o.id}">Approve</button> <button class="btn red small" data-reject="${o.id}">Reject</button>`:''}
+        ${o.paymentMethod==='wallet'&&o.payment==='Wallet Pending'?`<button class="btn secondary small" data-wallet-order="${o.id}">Wallet Approve</button>`:''}
+        ${o.payment==='Approved'&&o.delivery!=='Confirmed'?`<button class="btn primary small" data-delivery="${o.id}">Delivery Confirm</button>`:''}
+      </td>
+    </tr>`).join(''):'<tr><td colspan="5" class="empty">No orders.</td></tr>'}</table></div>`;
+  }catch(err){$('adminContent').innerHTML='<div class="panel empty">Admin orders load error.</div>'}
+}
+document.addEventListener('click',async e=>{
+  const a=e.target.closest('[data-approve]'),r=e.target.closest('[data-reject]'),w=e.target.closest('[data-wallet-order]'),d=e.target.closest('[data-delivery]');
+  try{
+    if(a)await approveOrder(a.dataset.approve);
+    if(r)await rejectOrder(r.dataset.reject);
+    if(w)await approveWalletOrder(w.dataset.walletOrder);
+    if(d)await confirmDelivery(d.dataset.delivery);
+  }catch(err){toast(err.message)}
+});
+async function approveOrder(id){
+  const ref=doc(db,'orders',id),s=await getDoc(ref);if(!s.exists())return;
+  const o=s.data();if(o.payment!=='Pending')return toast('Already processed');
+  await updateDoc(ref,{payment:'Approved',status:'Order Confirmed',approvedAt:serverTimestamp()});toast('Payment approved');renderAdminTab();
+}
+async function rejectOrder(id){
+  const ref=doc(db,'orders',id),s=await getDoc(ref);if(!s.exists())return;
+  const o=s.data();if(o.payment!=='Pending')return toast('Already processed');
+  await updateDoc(ref,{payment:'Rejected',status:'Order Rejected',rejectedAt:serverTimestamp()});toast('Payment rejected');renderAdminTab();
+}
+async function approveWalletOrder(id){
+  const ref=doc(db,'orders',id),s=await getDoc(ref);if(!s.exists())return;
+  const o=s.data();if(o.payment!=='Wallet Pending')return toast('Already processed');
+  const us=await getDoc(doc(db,'users',o.userId));if(!us.exists())return toast('User not found');
+  const u=us.data();if(Number(u.wallet||0)<Number(o.total))return toast('Wallet balance is no longer enough');
+  await updateDoc(doc(db,'users',o.userId),{wallet:increment(-Number(o.total))});
+  await updateDoc(ref,{payment:'Approved',status:'Order Confirmed',approvedAt:serverTimestamp()});
+  toast('Wallet deducted and order approved');renderAdminTab();
+}
+async function confirmDelivery(id){
+  const ref=doc(db,'orders',id),s=await getDoc(ref);if(!s.exists())return;
+  if(s.data().payment!=='Approved')return toast('Approve payment first');
+  await updateDoc(ref,{delivery:'Confirmed',status:'Delivery Confirmed',deliveryConfirmedAt:serverTimestamp()});
+  toast('Delivery confirmed');renderAdminTab();
+}
+async function adminUsers(){
+  const [us,rs]=await Promise.all([getDocs(collection(db,'users')),getDocs(collection(db,'walletRequests'))]);
+  const users=us.docs.map(d=>d.data()),reqs=rs.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{
+    const at=a.createdAt?.toMillis?a.createdAt.toMillis():0;
+    const bt=b.createdAt?.toMillis?b.createdAt.toMillis():0;
+    return bt-at;
+  });
+  $('adminContent').innerHTML=`<div class="panel tablewrap"><h3>Users & Wallet Requests</h3><table class="table"><tr><th>User</th><th>Wallet</th><th>Requests</th></tr>
+  ${users.map(u=>`<tr><td><b>${esc(u.name||'')}</b><br>ID: ${esc(u.uid)}<br>${esc(u.email||'')}<br>${esc(u.phone||'')}</td><td><b>${money(u.wallet)}</b></td><td>
+  ${reqs.filter(r=>r.userId===u.uid).map(r=>`<div class="notice" style="margin-bottom:8px">${money(r.amount)} • TX ${esc(r.txid)} • ${esc(r.status)} ${r.status==='Pending'?`<br><button class="btn green small" data-aw="${r.id}">Approve</button> <button class="btn red small" data-rw="${r.id}">Reject</button>`:''}</div>`).join('')||'<span class="muted">None</span>'}</td></tr>`).join('')}</table></div>`;
+}
+document.addEventListener('click',async e=>{
+  const a=e.target.closest('[data-aw]'),r=e.target.closest('[data-rw]');
+  try{if(a)await approveWallet(a.dataset.aw);if(r)await rejectWallet(r.dataset.rw)}catch(err){toast(err.message)}
+});
+async function approveWallet(id){
+  const ref=doc(db,'walletRequests',id),s=await getDoc(ref);if(!s.exists()||s.data().status!=='Pending')return;
+  const d=s.data();await updateDoc(ref,{status:'Approved',approvedAt:serverTimestamp()});
+  await updateDoc(doc(db,'users',d.userId),{wallet:increment(Number(d.amount))});
+  toast('Wallet credited');renderAdminTab();
+}
+async function rejectWallet(id){
+  const ref=doc(db,'walletRequests',id);await updateDoc(ref,{status:'Rejected',rejectedAt:serverTimestamp()});toast('Wallet request rejected');renderAdminTab();
+}
+function adminProducts(){
+  $('adminContent').innerHTML=`<div class="panel"><h3>Add Product</h3>
+    <form class="form" id="productForm">
+      <div class="formgrid"><input class="input" id="pn" placeholder="Product name" required><input class="input" id="pp" type="number" min="0" placeholder="Price" required></div>
+      <div class="formgrid"><select class="select" id="pc" required><option value="">Select Category</option><option value="uid_topup">UID TOP-UP</option><option value="product">PRODUCT</option></select><input class="input" id="ps" type="number" min="0" placeholder="Stock" required></div>
+      <div class="notice"><b>FREE FIRE:</b> customer শুধু Enter UID দেবে। <b>eFootball:</b> eFootball ID + Username + Phone Number দেবে।<br><b>PRODUCT:</b> customer Phone + জেলা + থানা/উপজেলা + এলাকা + Road/বাড়ি + বিস্তারিত address দেবে।</div>
+      <textarea class="textarea" id="pd" placeholder="Description"></textarea><input class="input" id="pi" placeholder="Image URL (optional)">
+      <button class="btn primary">ADD PRODUCT</button>
+    </form></div>
+    <div class="panel"><h3>Product Management</h3>${products.map(p=>`<div class="between" style="padding:12px 0;border-bottom:1px solid #292d37"><div><b>${esc(p.name)}</b><br><span class="muted">${money(p.price)} • Stock ${p.stock||0}</span></div><button class="btn red small" data-del-product="${p.id}">DELETE</button></div>`).join('')||'<div class="empty">No products.</div>'}</div>`;
+  $('productForm').onsubmit=async e=>{
+    e.preventDefault();
+    try{
+      await addDoc(collection(db,'products'),{name:$('pn').value.trim(),price:Number($('pp').value),category:$('pc').value, type:$('pc').value==='uid_topup'?'uid_topup':'product', stock:Number($('ps').value),description:$('pd').value.trim(),imageUrl:$('pi').value.trim(),createdAt:serverTimestamp()});
+      toast('Product added');adminProducts();
+    }catch(err){toast(err.message)}
+  };
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-del-product]');
+  if(b){try{await deleteDoc(doc(db,'products',b.dataset.delProduct));toast('Product deleted');adminProducts()}catch(err){toast(err.message)}}
+});
+function adminMedia(){
+  $('adminContent').innerHTML=`<div class="panel"><h3>Website Image / Video</h3><p class="muted">Firebase Storage ছাড়া media URL save করা যাবে।</p>
+    <form class="form" id="mediaForm"><input class="input" id="mediaName" placeholder="Media name" required><select class="select" id="mediaType"><option value="image">Image</option><option value="video">Video</option></select><input class="input" id="mediaUrl" type="url" placeholder="https://... media URL" required><button class="btn primary">SAVE MEDIA</button></form>
+    <div id="mediaList" style="margin-top:15px"></div></div>`;
+  loadMediaList();
+  $('mediaForm').onsubmit=async e=>{
+    e.preventDefault();
+    try{await addDoc(collection(db,'media'),{name:$('mediaName').value.trim(),type:$('mediaType').value,url:$('mediaUrl').value.trim(),createdAt:serverTimestamp()});toast('Media saved');e.target.reset();loadMediaList()}catch(err){toast(err.message)}
+  };
+}
+async function loadMediaList(){
+  const s=await getDocs(query(collection(db,'media'),orderBy('createdAt','desc')));
+  $('mediaList').innerHTML=s.docs.length?s.docs.map(d=>{const x=d.data();return `<div class="between" style="padding:10px 0;border-bottom:1px solid #292d37"><span>${esc(x.name)} • ${esc(x.type)}</span><button class="btn red small" data-del-media="${d.id}">DELETE</button></div>`}).join(''):'<span class="muted">No media yet.</span>';
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-del-media]');
+  if(b){try{await deleteDoc(doc(db,'media',b.dataset.delMedia));toast('Media deleted');loadMediaList()}catch(err){toast(err.message)}}
+});
+
+
+const introScreen=$('introScreen'), authGate=$('authGate');
+setTimeout(()=>introScreen.classList.add('done'),3400);
+function authError(err){
+  const code=err?.code||'';
+  const map={
+    'auth/invalid-credential':'Email or password is incorrect.',
+    'auth/invalid-login-credentials':'Email or password is incorrect.',
+    'auth/email-already-in-use':'This email is already registered. Login instead.',
+    'auth/weak-password':'Password must be at least 6 characters.',
+    'auth/invalid-email':'Please enter a valid email address.',
+    'auth/operation-not-allowed':'Email/Password login is not enabled in Firebase Authentication.',
+    'auth/unauthorized-domain':'This website domain is not authorized in Firebase Authentication.',
+    'auth/popup-blocked':'Google login popup was blocked by the browser.'
+  };
+  return map[code] || err?.message || 'Something went wrong. Please try again.';
+}
+
+function gateForm(mode='login'){
+  const a=$('gateArea');
+  $('gateTitle').textContent=mode==='login'?'Welcome back':'Create your account';
+  $('gateSub').textContent=mode==='login'?'Login to continue to your store.':'Join CholoKiniBD and start shopping.';
+  a.innerHTML=mode==='login'?`<form class="form" id="gateLoginForm"><input class="authInput" id="gateEmail" type="email" placeholder="Email address" required><input class="authInput" id="gatePass" type="password" placeholder="Password" required><button type="submit" class="authMain">LOGIN TO CHOLOKINIBD</button></form><div class="or">OR</div><button type="button" class="googleBtn" id="gateGoogle">🌐 Continue with Google</button>`:`<form class="form" id="gateRegForm"><input class="authInput" id="gateName" placeholder="Full name" required><input class="authInput" id="gateUsername" placeholder="Username" required><input class="authInput" id="gateRegEmail" type="email" placeholder="Email address" required><input class="authInput" id="gatePhone" placeholder="Phone number" required><input class="authInput" id="gateRegPass" type="password" placeholder="Password" required><button type="submit" class="authMain">CREATE ACCOUNT</button></form><div class="or">OR</div><button type="button" class="googleBtn" id="gateGoogle">🌐 Continue with Google</button>`;
+  if(mode==='login'){
+    $('gateLoginForm').onsubmit=async e=>{e.preventDefault();try{await signInWithEmailAndPassword(auth,$('gateEmail').value.trim(),$('gatePass').value);toast('Login successful')}catch(err){toast(authError(err))}};
+  }else{
+    $('gateRegForm').onsubmit=async e=>{
+      e.preventDefault();
+      const btn=e.submitter||$('gateRegForm').querySelector('button[type=submit]');
+      const name=$('gateName').value.trim(), username=$('gateUsername').value.trim();
+      const email=$('gateRegEmail').value.trim(), phone=$('gatePhone').value.trim(), pass=$('gateRegPass').value;
+      if(pass.length<6){toast('Password must be at least 6 characters.');return}
+      if(btn){btn.disabled=true;btn.textContent='CREATING ACCOUNT...'}
+      try{
+        const c=await createUserWithEmailAndPassword(auth,email,pass);
+        try{await updateProfile(c.user,{displayName:name})}catch(profileErr){console.warn('Profile update:',profileErr)}
+        try{
+          await setDoc(doc(db,'users',c.user.uid),{
+            uid:c.user.uid,name,username,email:c.user.email,phone,wallet:0,provider:'password',role:'user',createdAt:serverTimestamp()
+          },{merge:true});
+        }catch(profileDocErr){
+          console.warn('Firestore profile save:',profileDocErr);
+          toast('Account created. Profile save needs Firebase Rules permission.');
+        }
+        toast('Account created successfully');
+        // Auth state will unlock the website automatically.
+      }catch(err){
+        toast(authError(err));
+        if(btn){btn.disabled=false;btn.textContent='CREATE ACCOUNT'}
+      }
+    };
+  }
+  $('gateGoogle').onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());toast('Google login successful')}catch(err){toast(err.message)}};
+}
+$('gateLoginTab').onclick=()=>{gateForm('login');$('gateLoginTab').classList.add('active');$('gateRegisterTab').classList.remove('active')};
+$('gateRegisterTab').onclick=()=>{gateForm('register');$('gateRegisterTab').classList.add('active');$('gateLoginTab').classList.remove('active')};
+gateForm('login');
+
+onAuthStateChanged(auth,async user=>{
+  try{
+    if(user){
+      currentUser=user;
+      document.body.classList.remove('appLocked');
+      authGate.classList.remove('show');
+      if(window.choloUnlockApp) window.choloUnlockApp();
+      try{await loadUser(user)}catch(err){console.warn('loadUser:',err);updateUI()}
+      page('home');
+    }else{
+      currentUser=null;
+      document.body.classList.add('appLocked');
+      // Keep the store visible underneath; show login on top.
+      authGate.classList.add('show');
+      gateForm('login');
+    }
+  }catch(err){
+    console.error('Auth state error:',err);
+    authGate.classList.add('show');
+    gateForm('login');
+  }
+});
+listenProducts();
+updateUI();
+</script>
+
+
+<script>
+document.addEventListener('click',function(e){
+  const tab=e.target.closest('[data-feature-filter]');
+  if(!tab)return;
+  document.querySelectorAll('.featuredTab').forEach(x=>x.classList.remove('active'));
+  tab.classList.add('active');
+  const type=tab.dataset.featureFilter;
+  document.querySelectorAll('.featuredCard').forEach(card=>{
+    card.classList.toggle('featureHidden',type!=='all' && card.dataset.featureType!==type);
+  });
+});
+</script>
+
+</body>
+</html>
